@@ -1,0 +1,45 @@
+/* This CSS is common to all pages */
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+
+.navitem {
+  padding: 3px 10px;
+}
+.navitem.is-active {
+  background-color: #eee;
+}
+
+/* Change the scrollbar width and color */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #f1f1f1;
+  border-radius: 25px;
+}
+
+/* Change the scrollbar track color */
+::-webkit-scrollbar-track {
+  background: #ccc;
+  border-radius: 25px;
+}
+
+/* Change the scrollbar thumb color */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 25px;
+}
+
+/* Change the scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 25px;
+}
