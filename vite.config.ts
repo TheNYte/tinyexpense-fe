@@ -14,7 +14,12 @@ const config: UserConfig = {
     vike({
       prerender: true,
     }),
-    VitePWA({registerType: 'autoUpdate'}),
+    VitePWA({
+      registerType: 'autoUpdate',
+      devOptions: {
+        enabled: false,
+      },
+    }),
   ],
 };
 
