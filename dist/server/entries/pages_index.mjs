@@ -1,7 +1,7 @@
-import { u as useAuth, i as import_0 } from "../chunks/chunk-58a6c006.js";
+import { u as useAuth, i as import_0 } from "../chunks/chunk-371d9171.js";
 import { jsxs, jsx } from "react/jsx-runtime";
 import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button, Text } from "@chakra-ui/react";
-import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-7c41b569.js";
+import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-ab3267ba.js";
 import { Formik, Form, Field } from "formik";
 import "@tanstack/react-query";
 import "react-dom/server";

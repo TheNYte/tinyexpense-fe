@@ -16,7 +16,7 @@ function usePageContext() {
   return pageContext;
 }
 const PageShell$1 = "";
-const URL = "http://80.253.88:210:8080";
+const URL = "http://apitinyexpense.ftefy.ch";
 const ApiConfig = {
   login: `${URL}/account/login`,
   register: `${URL}/account/create`

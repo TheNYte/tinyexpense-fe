@@ -1,4 +1,4 @@
-const URL = 'http://80.253.88:210:8080';
+const URL = 'http://apitinyexpense.ftefy.ch';
 
 export const ApiConfig = {
   login: `${URL}/account/login`,

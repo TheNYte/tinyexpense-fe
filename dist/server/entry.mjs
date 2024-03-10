@@ -111,26 +111,26 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
 }, Symbol.toStringTag, { value: "Module" }));
 {
   const assetsManifest = {
-  "_chunk-4e872747.js": {
-    "file": "assets/chunks/chunk-4e872747.js",
-    "imports": [
-      "_chunk-afee200e.js"
-    ]
-  },
-  "_chunk-98622c7d.js": {
-    "file": "assets/chunks/chunk-98622c7d.js",
-    "imports": [
-      "_chunk-4e872747.js",
-      "_chunk-afee200e.js"
-    ]
-  },
-  "_chunk-afee200e.js": {
+  "_chunk-3c821c25.js": {
     "css": [
       "assets/static/onRenderClient.ff5f94e3.css"
     ],
-    "file": "assets/chunks/chunk-afee200e.js",
+    "file": "assets/chunks/chunk-3c821c25.js",
     "imports": [
       "_chunk-d6cd9d78.js"
+    ]
+  },
+  "_chunk-73d0e9ce.js": {
+    "file": "assets/chunks/chunk-73d0e9ce.js",
+    "imports": [
+      "_chunk-cfae00a3.js",
+      "_chunk-3c821c25.js"
+    ]
+  },
+  "_chunk-cfae00a3.js": {
+    "file": "assets/chunks/chunk-cfae00a3.js",
+    "imports": [
+      "_chunk-3c821c25.js"
     ]
   },
   "_chunk-d6cd9d78.js": {
@@ -147,7 +147,7 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
       "virtual:vike:pageConfigValuesAll:client:/pages/index",
       "virtual:vike:pageConfigValuesAll:client:/pages/register"
     ],
-    "file": "assets/entries/entry-client-routing.b639fe02.js",
+    "file": "assets/entries/entry-client-routing.3629e9c3.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ],
@@ -155,9 +155,9 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     "src": "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js"
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/_error": {
-    "file": "assets/entries/pages_error.8593526a.js",
+    "file": "assets/entries/pages_error.6b8df2cd.js",
     "imports": [
-      "_chunk-afee200e.js",
+      "_chunk-3c821c25.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -168,10 +168,10 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/home": {
-    "file": "assets/entries/pages_home.22187c42.js",
+    "file": "assets/entries/pages_home.28f58f67.js",
     "imports": [
-      "_chunk-afee200e.js",
-      "_chunk-4e872747.js",
+      "_chunk-3c821c25.js",
+      "_chunk-cfae00a3.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -182,11 +182,11 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/index": {
-    "file": "assets/entries/pages_index.6a48dccc.js",
+    "file": "assets/entries/pages_index.b2f89725.js",
     "imports": [
-      "_chunk-afee200e.js",
-      "_chunk-98622c7d.js",
-      "_chunk-4e872747.js",
+      "_chunk-3c821c25.js",
+      "_chunk-73d0e9ce.js",
+      "_chunk-cfae00a3.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -197,11 +197,11 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/register": {
-    "file": "assets/entries/pages_register.876c897a.js",
+    "file": "assets/entries/pages_register.6f1c1d7d.js",
     "imports": [
-      "_chunk-afee200e.js",
-      "_chunk-98622c7d.js",
-      "_chunk-4e872747.js",
+      "_chunk-3c821c25.js",
+      "_chunk-73d0e9ce.js",
+      "_chunk-cfae00a3.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
