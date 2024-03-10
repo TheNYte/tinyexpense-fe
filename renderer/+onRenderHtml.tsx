@@ -42,6 +42,8 @@ const onRenderHtml: OnRenderHtmlAsync = async (
         <base href=".">
         <meta charset="UTF-8" />
         <link rel="icon" href="${logoUrl}" />
+        <link rel="manifest" href="/manifest.webmanifest">
+        <script src="registerSW.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
         <title>${title}</title>

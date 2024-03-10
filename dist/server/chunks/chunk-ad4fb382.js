@@ -153,15 +153,19 @@ function PageShell({
   ) }) }) });
 }
 function getPageTitle(pageContext) {
-  var _a;
+  var _a2;
   const title = (
     // Title defined dynamically by data()
-    ((_a = pageContext.data) == null ? void 0 : _a.title) || // Title defined statically by /pages/some-page/+title.js (or by `export default { title }` in /pages/some-page/+config.js)
+    ((_a2 = pageContext.data) == null ? void 0 : _a2.title) || // Title defined statically by /pages/some-page/+title.js (or by `export default { title }` in /pages/some-page/+config.js)
     // The setting 'pageContext.config.title' is a custom setting we defined at ./+config.ts
     pageContext.config.title || "Vike Demo"
   );
   return title;
 }
+var __freeze = Object.freeze;
+var __defProp = Object.defineProperty;
+var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
+var _a;
 const queryClient = new QueryClient();
 const onRenderHtml = async (pageContext) => {
   const { Page } = pageContext;
@@ -171,22 +175,12 @@ const onRenderHtml = async (pageContext) => {
   const title = getPageTitle(pageContext);
   const { documentProps } = pageContext.exports;
   const desc = documentProps && documentProps.description || "App using Vite + Vike";
-  const documentHtml = escapeInject`<!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <base href=".">
-        <meta charset="UTF-8" />
-        <link rel="icon" href="${logoUrl}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="${desc}" />
-        <title>${title}</title>
+  const documentHtml = escapeInject(_a || (_a = __template(['<!DOCTYPE html>\n    <html lang="en">\n      <head>\n        <base href=".">\n        <meta charset="UTF-8" />\n        <link rel="icon" href="', '" />\n        <link rel="manifest" href="/manifest.webmanifest">\n        <script src="registerSW.js"><\/script>\n        <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n        <meta name="description" content="', '" />\n        <title>', `</title>
       </head>
       <body>
-        <div id="react-root" style='height:100vh'>${dangerouslySkipEscape(
+        <div id="react-root" style='height:100vh'>`, "</div>\n      </body>\n    </html>"])), logoUrl, desc, title, dangerouslySkipEscape(
     pageHtml
-  )}</div>
-      </body>
-    </html>`;
+  ));
   return {
     documentHtml,
     // See https://vike.dev/streaming#initial-data-after-stream-end
