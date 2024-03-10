@@ -1,28 +1,28 @@
 {
-  "_chunk-3c821c25.js": {
+  "_chunk-4933a30a.js": {
     "css": [
       "assets/static/onRenderClient.ff5f94e3.css"
     ],
-    "file": "assets/chunks/chunk-3c821c25.js",
+    "file": "assets/chunks/chunk-4933a30a.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ]
   },
-  "_chunk-73d0e9ce.js": {
-    "file": "assets/chunks/chunk-73d0e9ce.js",
+  "_chunk-76b766cb.js": {
+    "file": "assets/chunks/chunk-76b766cb.js",
     "imports": [
-      "_chunk-cfae00a3.js",
-      "_chunk-3c821c25.js"
-    ]
-  },
-  "_chunk-cfae00a3.js": {
-    "file": "assets/chunks/chunk-cfae00a3.js",
-    "imports": [
-      "_chunk-3c821c25.js"
+      "_chunk-4933a30a.js"
     ]
   },
   "_chunk-d6cd9d78.js": {
     "file": "assets/chunks/chunk-d6cd9d78.js"
+  },
+  "_chunk-f0a61ec2.js": {
+    "file": "assets/chunks/chunk-f0a61ec2.js",
+    "imports": [
+      "_chunk-76b766cb.js",
+      "_chunk-4933a30a.js"
+    ]
   },
   "_onRenderClient.css": {
     "file": "assets/static/onRenderClient.ff5f94e3.css",
@@ -35,7 +35,7 @@
       "virtual:vike:pageConfigValuesAll:client:/pages/index",
       "virtual:vike:pageConfigValuesAll:client:/pages/register"
     ],
-    "file": "assets/entries/entry-client-routing.3629e9c3.js",
+    "file": "assets/entries/entry-client-routing.76e2c677.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ],
@@ -43,9 +43,9 @@
     "src": "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js"
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/_error": {
-    "file": "assets/entries/pages_error.6b8df2cd.js",
+    "file": "assets/entries/pages_error.e73edf8b.js",
     "imports": [
-      "_chunk-3c821c25.js",
+      "_chunk-4933a30a.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -56,10 +56,10 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/home": {
-    "file": "assets/entries/pages_home.28f58f67.js",
+    "file": "assets/entries/pages_home.9993f667.js",
     "imports": [
-      "_chunk-3c821c25.js",
-      "_chunk-cfae00a3.js",
+      "_chunk-4933a30a.js",
+      "_chunk-76b766cb.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -70,11 +70,11 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/index": {
-    "file": "assets/entries/pages_index.b2f89725.js",
+    "file": "assets/entries/pages_index.30585557.js",
     "imports": [
-      "_chunk-3c821c25.js",
-      "_chunk-73d0e9ce.js",
-      "_chunk-cfae00a3.js",
+      "_chunk-4933a30a.js",
+      "_chunk-f0a61ec2.js",
+      "_chunk-76b766cb.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -85,11 +85,11 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/register": {
-    "file": "assets/entries/pages_register.6f1c1d7d.js",
+    "file": "assets/entries/pages_register.8bc111f9.js",
     "imports": [
-      "_chunk-3c821c25.js",
-      "_chunk-73d0e9ce.js",
-      "_chunk-cfae00a3.js",
+      "_chunk-4933a30a.js",
+      "_chunk-f0a61ec2.js",
+      "_chunk-76b766cb.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,

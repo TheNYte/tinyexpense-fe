@@ -1,4 +1,4 @@
-const URL = 'http://apitinyexpense.ftefy.ch';
+const URL = 'https://apitinyexpense.ftefy.ch';
 
 export const ApiConfig = {
   login: `${URL}/account/login`,
