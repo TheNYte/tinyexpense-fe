@@ -126,6 +126,7 @@ export const AuthProvider: React.FC<Props> = (props) => {
         !loggedOut &&
         user === null &&
         pageContext.urlPathname !== '/' &&
+        pageContext.urlPathname !== '/register' &&
         !loading
       ) {
         await redirect('/');
@@ -140,6 +141,7 @@ export const AuthProvider: React.FC<Props> = (props) => {
         loggedOut &&
         user === null &&
         pageContext.urlPathname !== '/' &&
+        pageContext.urlPathname !== '/register' &&
         !loading
       ) {
         await redirect('/');

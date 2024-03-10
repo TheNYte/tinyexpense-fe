@@ -9,11 +9,18 @@ import {
   IconButton,
   CloseButton,
   useToast,
+  Divider,
 } from '@chakra-ui/react';
 import React, {useContext, useEffect, useState} from 'react';
 import {AddIcon} from '@chakra-ui/icons';
 import {CategoryMenu} from '#root/components/CategoryMenu';
 import {AuthContext, redirect, useAuth} from '#root/contexts/AuthContext';
+import {
+  inputStyle,
+  webkitGradientBorderStyle,
+  webkitGradientButtonStyle,
+  webkitGradientTextStyle,
+} from '#root/common/common_constants';
 
 export default function Page() {
   const [category, setCategory] = useState<string>('');
@@ -72,17 +79,49 @@ export default function Page() {
         bgColor={'white'}
         borderRadius={6}
         display={'flex'}
-        flexDir={'row'}
-        justifyContent={'space-between'}
+        flexDir={'column'}
+        justifyContent={'center'}
         alignItems={'center'}
-        h={12}
+        h={24}
         p={4}
         minW={{base: '300px', sm: '500px'}}
+        gap={2}
       >
-        <Text>{user?.account?.name || 'Test user'}</Text>
-        <Button onClick={logout} colorScheme="teal" size={'sm'} width="auto">
-          Logout
-        </Button>
+        <Text
+          {...webkitGradientTextStyle}
+          fontSize={'md'}
+          fontWeight={'bold'}
+          textTransform={'capitalize'}
+        >
+          {'Tinyexpense.'}
+        </Text>
+        <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
+          <Divider h="1px" />
+        </Box>
+        <Box
+          display={'flex'}
+          flexDir={'row'}
+          w={'100%'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Text
+            {...webkitGradientTextStyle}
+            size={'md'}
+            textTransform={'capitalize'}
+          >
+            {user?.account?.name || 'Test user'}
+          </Text>
+          <Button
+            {...webkitGradientButtonStyle}
+            onClick={logout}
+            colorScheme="teal"
+            size={'sm'}
+            width="auto"
+          >
+            Logout
+          </Button>
+        </Box>
       </Box>
       <Box
         p={4}
@@ -93,30 +132,60 @@ export default function Page() {
         rounded="lg"
         shadow="md"
         overflow="hidden"
+        display={'flex'}
+        flexDir={'column'}
+        gap={4}
       >
         <VStack spacing={4} align="flex-start" w="100%">
-          <HStack spacing={4} w="100%">
+          <HStack
+            spacing={4}
+            w="100%"
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
             <CategoryMenu
               currentValue={category}
               onChange={(e) => setCategory(e)}
             />
-            <Input
-              type="number"
-              placeholder="Amount"
-              value={amount}
-              maxW={'70px'}
-              onChange={(e) => setAmount(Number(e.target.value))}
-            />
+            <Box
+              p={'2px'}
+              borderRadius={'7px'}
+              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+            >
+              <Input
+                borderRadius={'5px'}
+                {...webkitGradientBorderStyle}
+                type="number"
+                placeholder="Amount"
+                value={amount}
+                maxW={'70px'}
+                onChange={(e) => setAmount(Number(e.target.value))}
+              />
+            </Box>
           </HStack>
-          <HStack w={'100%'}>
-            <Input
-              placeholder="Item Name"
-              value={expenseDescription}
-              onChange={(e) => setExpenseDescription(e.target.value)}
-            />
+          <HStack
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            w={'100%'}
+          >
+            <Box
+              p={'2px'}
+              borderRadius={'7px'}
+              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+            >
+              <Input
+                borderRadius={'5px'}
+                {...webkitGradientBorderStyle}
+                placeholder="Item Name"
+                value={expenseDescription}
+                onChange={(e) => setExpenseDescription(e.target.value)}
+              />
+            </Box>
             <IconButton
+              {...webkitGradientButtonStyle}
               isRound
-              colorScheme="teal"
               aria-label="Add Item"
               onClick={handleAddItem}
             >
@@ -124,10 +193,12 @@ export default function Page() {
             </IconButton>
           </HStack>
         </VStack>
-
-        <VStack mt={2} spacing={2} align="flex-start" w="100%">
+        <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
+          <Divider h="1px" />
+        </Box>
+        <VStack spacing={2} align="flex-start" w="100%">
           {itemList.length === 0 && (
-            <Text fontSize="md" color="red.500">
+            <Text m={0} {...webkitGradientTextStyle} fontSize="md">
               No items recorded.
             </Text>
           )}

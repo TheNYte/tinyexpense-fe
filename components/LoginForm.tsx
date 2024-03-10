@@ -82,7 +82,17 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
                 </FormControl>
               )}
             </Field>
-            <Button mt={4} colorScheme="teal" type="submit" width="full">
+            <Button
+              mt={4}
+              background={'linear-gradient(to right, #ff5757, #8c52ff)'}
+              color="white"
+              _hover={{
+                background: 'linear-gradient(to right, #8c52ff, #ff5757)',
+                color: 'white',
+              }}
+              type="submit"
+              width="full"
+            >
               Login
             </Button>
           </Form>
@@ -90,7 +100,11 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
       </Formik>
       <Box mt={2} textAlign="center">
         <VikeLink href="/register">
-          <Text color="teal.500">
+          <Text
+            backgroundImage="linear-gradient(to right, #ff5757, #8c52ff)"
+            color="transparent"
+            style={{WebkitBackgroundClip: 'text'}}
+          >
             {"Don't have an account? Register here."}
           </Text>
         </VikeLink>

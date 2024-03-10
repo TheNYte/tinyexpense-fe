@@ -11,6 +11,7 @@ export default function Page() {
           <Image src={'/public/logo.png'} />
         </Flex>
       </Box>
+      {/* linear gradient 90 degrees #ff5757, #8c52ff */}
       <Box
         mx="auto"
         w="293px"

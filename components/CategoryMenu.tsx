@@ -10,6 +10,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import {ChevronDownIcon} from '@chakra-ui/icons';
+import {webkitGradientBorderStyle} from '#root/common/common_constants';
 
 export const CategoryMenu: React.FC = ({onChange, currentValue}) => {
   const currencies = [
@@ -21,8 +22,14 @@ export const CategoryMenu: React.FC = ({onChange, currentValue}) => {
   ];
 
   return (
-    <Box>
+    <Box
+      p={'2px'}
+      borderRadius={'7px'}
+      bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+    >
       <Select
+        borderRadius={'5px'}
+        {...webkitGradientBorderStyle}
         placeholder="Category"
         value={currentValue}
         onChange={(event) => {
