@@ -1,12 +1,12 @@
 import { jsx } from "react/jsx-runtime";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOMServer from "react-dom/server";
-import { Flex, ChakraProvider } from "@chakra-ui/react";
+import { useToast, Spinner, Flex, ChakraProvider } from "@chakra-ui/react";
 import { escapeInject, dangerouslySkipEscape } from "vike/server";
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { useCookies, CookiesProvider } from "react-cookie";
 import { navigate } from "vike/client/router";
-const logoUrl = "/assets/static/logo.bebe2e90.svg";
+const logoUrl = "/assets/static/logo.0ab59a12.svg";
 const Context = React.createContext(void 0);
 function PageContextProvider({ pageContext, children }) {
   return /* @__PURE__ */ jsx(Context.Provider, { value: pageContext, children });
@@ -38,14 +38,18 @@ async function redirect(url) {
   console.log("The new page has finished rendering.");
 }
 const AuthProvider = (props) => {
-  const { children } = props;
+  const { children, pageContext } = props;
   const [user, setUser] = useState(null);
   const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
+  const [loading, setLoading] = useState(true);
+  const [loggedOut, setLoggedOut] = useState(false);
+  const toast = useToast();
   useEffect(() => {
     const userData = cookies.userData;
     if (userData) {
       setUser(userData);
     }
+    setLoading(false);
   }, [cookies.userData]);
   const login = async (email, password) => {
     try {
@@ -67,27 +71,73 @@ const AuthProvider = (props) => {
         secure: true
       });
       await redirect("/home");
+      toast({
+        title: "Login Successful",
+        description: "You have been successfully logged in.",
+        status: "success",
+        // Set status to 'success' for green color
+        duration: 5e3,
+        // Duration in milliseconds
+        isClosable: true
+        // Allow closing the toast
+      });
     } catch (error) {
       console.error("Login error:", error);
+      toast({
+        title: "Invalid User",
+        description: "Please check your password and email address.",
+        status: "error",
+        duration: 5e3,
+        // Duration in milliseconds
+        isClosable: false
+      });
     }
   };
   const logout = async () => {
-    removeCookie("userData");
+    removeCookie("userData", { path: "/" });
     setUser(null);
-    await redirect("/");
+    setLoggedOut(true);
   };
   const value = {
     user,
     login,
     logout
   };
-  return /* @__PURE__ */ jsx(AuthContext.Provider, { value, children });
+  useEffect(() => {
+    const checkIfLoggedIn = async () => {
+      if (!loggedOut && user === null && pageContext.urlPathname !== "/" && pageContext.urlPathname !== "/register" && !loading) {
+        await redirect("/");
+        toast({
+          title: "Invalid page request",
+          description: "Please login to access this content.",
+          status: "error",
+          duration: 5e3,
+          // Duration in milliseconds
+          isClosable: false
+        });
+      } else if (loggedOut && user === null && pageContext.urlPathname !== "/" && pageContext.urlPathname !== "/register" && !loading) {
+        await redirect("/");
+        toast({
+          title: "Logout Successful",
+          description: "You have been successfully logged out.",
+          status: "success",
+          // Set status to 'success' for green color
+          duration: 5e3,
+          // Duration in milliseconds
+          isClosable: true
+          // Allow closing the toast
+        });
+      }
+    };
+    checkIfLoggedIn();
+  }, [user, toast, pageContext.urlPathname, loading, loggedOut]);
+  return loading ? /* @__PURE__ */ jsx(Spinner, {}) : /* @__PURE__ */ jsx(AuthContext.Provider, { value, children });
 };
 function PageShell({
   children,
   pageContext
 }) {
-  return /* @__PURE__ */ jsx(React.StrictMode, { children: /* @__PURE__ */ jsx(PageContextProvider, { pageContext, children: /* @__PURE__ */ jsx(AuthProvider, { children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(React.StrictMode, { children: /* @__PURE__ */ jsx(PageContextProvider, { pageContext, children: /* @__PURE__ */ jsx(AuthProvider, { pageContext, children: /* @__PURE__ */ jsx(
     Flex,
     {
       w: "100%",
@@ -95,7 +145,7 @@ function PageShell({
       display: "flex",
       flexDir: "column",
       align: "center",
-      justify: "center",
+      justify: "flex-start",
       p: 4,
       bgGradient: " radial-gradient(gray.600, gray.800)",
       children: /* @__PURE__ */ jsx(Flex, { direction: "column", align: "center", justify: "center", children })
