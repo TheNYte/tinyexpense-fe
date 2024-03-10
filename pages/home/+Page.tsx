@@ -19,12 +19,13 @@ import {CloseIcon} from '@chakra-ui/icons';
 import React, {useContext, useState} from 'react';
 import {AddIcon} from '@chakra-ui/icons';
 import {CategoryMenu} from '#root/components/CategoryMenu';
-import {AuthContext, useAuth} from '#root/contexts/AuthContext';
+import {AuthContext, redirect, useAuth} from '#root/contexts/AuthContext';
 import {
   randomItems,
   webkitGradientBorderStyle,
 } from '#root/common/common_constants';
 import {ChakraDatePicker} from '#root/components/ChakraDatePicker';
+import {Header} from '#root/components/Header';
 
 export default function Page(): React.FC {
   const currentDate = new Date();
@@ -33,13 +34,11 @@ export default function Page(): React.FC {
   const [expenseDescription, setExpenseDescription] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [itemList, setItemList] = useState<Record<string, any>[]>(randomItems);
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const context = useContext(AuthContext);
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (date: React.SetStateAction<Date>) => {
     setSelectedDate(date);
-    setIsDatePickerOpen(false); // Close the date picker when a date is selected
   };
 
   // TODO: pridať datePicker, input pre dlhsi text?, item name -> description
@@ -84,8 +83,6 @@ export default function Page(): React.FC {
     setItemList((prevList) => prevList.filter((_, i) => i !== index));
   };
 
-  const {user, logout} = useAuth();
-
   return context?.user === null ? null : (
     <Box
       w={'100%'}
@@ -95,44 +92,13 @@ export default function Page(): React.FC {
       alignItems={'space-between'}
       gap={4}
     >
-      <Box
-        bgColor={'white'}
-        borderRadius={6}
-        display={'flex'}
-        flexDir={'column'}
-        justifyContent={'center'}
-        alignItems={'center'}
-        p={4}
-        w={'100%'}
-        gap={2}
-      >
-        <Text fontSize={'md'} fontWeight={'bold'} textTransform={'capitalize'}>
-          {'Tinyexpense.'}
-        </Text>
-        <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
-          <Divider h="1px" />
-        </Box>
-        <Box
-          display={'flex'}
-          flexDir={'row'}
-          w={'100%'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-        >
-          <Text size={'md'} textTransform={'capitalize'}>
-            {user?.account?.name || 'Test user'}
-          </Text>
-          <Button onClick={logout} colorScheme="teal" size={'sm'} width="auto">
-            Logout
-          </Button>
-        </Box>
-      </Box>
+      <Header />
       <Box
         p={4}
         mx="auto"
         minW={{base: '350px', sm: '500px'}}
         maxW={{base: '350px', sm: '500px'}}
-        bg="white"
+        bg="#FFFFFFB2"
         rounded="lg"
         shadow="md"
         overflow="hidden"
@@ -203,7 +169,7 @@ export default function Page(): React.FC {
               bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
             >
               <IconButton
-                bgColor={'white'}
+                bgColor={'#FFFFFFB2'}
                 aria-label="Add Item"
                 onClick={handleAddItem}
               >

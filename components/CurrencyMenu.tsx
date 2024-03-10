@@ -10,6 +10,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import {ChevronDownIcon} from '@chakra-ui/icons';
+import {webkitGradientBorderStyle} from '#root/common/common_constants';
 
 export const CurrencyMenu = ({
   onChange,
@@ -27,8 +28,14 @@ export const CurrencyMenu = ({
   ];
 
   return (
-    <Box>
+    <Box
+      p={'2px'}
+      borderRadius={'7px'}
+      bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+    >
       <Select
+        borderRadius={'5px'}
+        {...webkitGradientBorderStyle}
         placeholder="Currency"
         value={currentValue}
         onChange={(event) => {

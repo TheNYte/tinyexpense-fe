@@ -7,6 +7,20 @@ import {webkitGradientBorderStyle} from '#root/common/common_constants';
 import './ChakraDatePicker.css';
 
 export const ChakraDatePicker: React.FC = ({selectedDate, onChange}) => {
+  const currentDate = new Date();
+  // Get the first day of the current month
+  const firstDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1,
+  );
+  // Get the last day of the current month
+  const lastDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0,
+  );
+
   return (
     <Box
       p={'2px'}

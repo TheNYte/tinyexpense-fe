@@ -1,5 +1,5 @@
 export const webkitGradientBorderStyle = {
-  bg: 'white',
+  bg: '#FFFFFFB2',
   border: '2px solid transparent',
   _hover: {border: '2px solid transparent'},
   _focus: {border: '2px solid transparent'},
@@ -14,10 +14,10 @@ export const webkitGradientTextStyle = {
 
 export const webkitGradientButtonStyle = {
   background: 'linear-gradient(to right, #ff5757, #8c52ff)',
-  color: 'white',
+  color: '#FFFFFFB2',
   _hover: {
     background: 'linear-gradient(to right, #8c52ff, #ff5757)',
-    color: 'white',
+    color: '#FFFFFFB2',
   },
 };
 

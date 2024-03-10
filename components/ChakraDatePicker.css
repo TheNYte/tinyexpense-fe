@@ -5,7 +5,15 @@
     outline: none;
 }
 
-.react-datepicker__day--selected  {
+.react-datepicker__input-container input {
+    background: transparent;
+}
+
+
+.react-datepicker {
+}
+
+.react-datepicker__day--selected {
     color: #FFFFFF;
     background: linear-gradient(to right, #ff5757, #8c52ff);
 }
