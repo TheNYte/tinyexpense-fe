@@ -24,13 +24,23 @@ import {
   randomItems,
   webkitGradientBorderStyle,
 } from '#root/common/common_constants';
+import {ChakraDatePicker} from '#root/components/ChakraDatePicker';
 
 export default function Page(): React.FC {
+  const currentDate = new Date();
+
   const [category, setCategory] = useState<string>('');
   const [expenseDescription, setExpenseDescription] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [itemList, setItemList] = useState<Record<string, any>[]>(randomItems);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
   const context = useContext(AuthContext);
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    setIsDatePickerOpen(false); // Close the date picker when a date is selected
+  };
 
   // TODO: pridať datePicker, input pre dlhsi text?, item name -> description
   // V liste zobrazovať category a price z €
@@ -159,6 +169,12 @@ export default function Page(): React.FC {
               />
             </Box>
           </HStack>
+          <HStack w={'100%'}>
+            <ChakraDatePicker
+              selectedDate={selectedDate}
+              onChange={handleDateChange}
+            />
+          </HStack>
           <HStack
             display={'flex'}
             justifyContent={'space-between'}
@@ -169,6 +185,7 @@ export default function Page(): React.FC {
               p={'2px'}
               borderRadius={'7px'}
               bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+              w={{base: '75%', md: '50%'}}
             >
               <Input
                 borderRadius={'5px'}
