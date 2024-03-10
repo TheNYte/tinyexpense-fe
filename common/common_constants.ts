@@ -26,3 +26,32 @@ export const inputStyle = {
   _hover: webkitGradientBorderStyle,
   _focus: webkitGradientBorderStyle,
 };
+
+export const randomItems = [
+  {
+    expenseDescription: 'Item 1',
+    expenseCategoryId: 1,
+    amount: 53,
+    currency: 'EUR',
+    timestamp: '2023-04-17',
+    categoryColor: 'black',
+  },
+  {
+    expenseDescription:
+      'This is some bullshit ass text description. This is some bullshit ass text description.  This is some bullshit ass text description. ',
+    expenseCategoryId: 1,
+    amount: 53,
+    currency: 'EUR',
+    timestamp: '2023-04-17',
+    categoryColor: 'black',
+  },
+  {
+    expenseDescription: 'Item 3',
+    expenseCategoryId: 1,
+    amount: 53,
+    currency: 'EUR',
+    timestamp: '2023-04-17',
+    categoryColor: 'black',
+  },
+  // Add more items as needed
+];

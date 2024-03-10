@@ -1,32 +1,35 @@
 import {
   Box,
-  Select,
   Input,
   Button,
   VStack,
   Text,
   HStack,
   IconButton,
-  CloseButton,
-  useToast,
   Divider,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from '@chakra-ui/react';
-import React, {useContext, useEffect, useState} from 'react';
+
+import {CloseIcon} from '@chakra-ui/icons';
+
+import React, {useContext, useState} from 'react';
 import {AddIcon} from '@chakra-ui/icons';
 import {CategoryMenu} from '#root/components/CategoryMenu';
-import {AuthContext, redirect, useAuth} from '#root/contexts/AuthContext';
+import {AuthContext, useAuth} from '#root/contexts/AuthContext';
 import {
-  inputStyle,
+  randomItems,
   webkitGradientBorderStyle,
-  webkitGradientButtonStyle,
-  webkitGradientTextStyle,
 } from '#root/common/common_constants';
 
-export default function Page() {
+export default function Page(): React.FC {
   const [category, setCategory] = useState<string>('');
   const [expenseDescription, setExpenseDescription] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
-  const [itemList, setItemList] = useState<Record<string, any>[]>([]);
+  const [itemList, setItemList] = useState<Record<string, any>[]>(randomItems);
   const context = useContext(AuthContext);
 
   // TODO: pridať datePicker, input pre dlhsi text?, item name -> description
@@ -65,34 +68,35 @@ export default function Page() {
     }
   };
 
-  const handleRemoveItem = (index: number) => {
+  const handleRemoveItem = (e, index: number) => {
+    console.log('e', e);
+    e.preventDefault();
     setItemList((prevList) => prevList.filter((_, i) => i !== index));
   };
 
   const {user, logout} = useAuth();
 
   return context?.user === null ? null : (
-    <>
+    <Box
+      w={'100%'}
+      h={'100%'}
+      display={'flex'}
+      flexDir={'column'}
+      alignItems={'space-between'}
+      gap={4}
+    >
       <Box
-        position={'absolute'}
-        top={5}
         bgColor={'white'}
         borderRadius={6}
         display={'flex'}
         flexDir={'column'}
         justifyContent={'center'}
         alignItems={'center'}
-        h={24}
         p={4}
-        minW={{base: '300px', sm: '500px'}}
+        w={'100%'}
         gap={2}
       >
-        <Text
-          {...webkitGradientTextStyle}
-          fontSize={'md'}
-          fontWeight={'bold'}
-          textTransform={'capitalize'}
-        >
+        <Text fontSize={'md'} fontWeight={'bold'} textTransform={'capitalize'}>
           {'Tinyexpense.'}
         </Text>
         <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
@@ -105,20 +109,10 @@ export default function Page() {
           justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Text
-            {...webkitGradientTextStyle}
-            size={'md'}
-            textTransform={'capitalize'}
-          >
+          <Text size={'md'} textTransform={'capitalize'}>
             {user?.account?.name || 'Test user'}
           </Text>
-          <Button
-            {...webkitGradientButtonStyle}
-            onClick={logout}
-            colorScheme="teal"
-            size={'sm'}
-            width="auto"
-          >
+          <Button onClick={logout} colorScheme="teal" size={'sm'} width="auto">
             Logout
           </Button>
         </Box>
@@ -126,8 +120,8 @@ export default function Page() {
       <Box
         p={4}
         mx="auto"
-        minH={'100px'}
-        minW={{base: '300px', sm: '500px'}}
+        minW={{base: '350px', sm: '500px'}}
+        maxW={{base: '350px', sm: '500px'}}
         bg="white"
         rounded="lg"
         shadow="md"
@@ -135,6 +129,7 @@ export default function Page() {
         display={'flex'}
         flexDir={'column'}
         gap={4}
+        maxHeight="calc(100vh - 150px)" // Adjust the max height as needed
       >
         <VStack spacing={4} align="flex-start" w="100%">
           <HStack
@@ -178,68 +173,87 @@ export default function Page() {
               <Input
                 borderRadius={'5px'}
                 {...webkitGradientBorderStyle}
-                placeholder="Item Name"
+                color={'black'}
+                _placeholder={{color: 'black'}}
+                placeholder="Item description"
                 value={expenseDescription}
                 onChange={(e) => setExpenseDescription(e.target.value)}
               />
             </Box>
-            <IconButton
-              {...webkitGradientButtonStyle}
-              isRound
-              aria-label="Add Item"
-              onClick={handleAddItem}
+            <Box
+              p={'2px'}
+              borderRadius={'7px'}
+              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
             >
-              <AddIcon />
-            </IconButton>
+              <IconButton
+                bgColor={'white'}
+                aria-label="Add Item"
+                onClick={handleAddItem}
+              >
+                <AddIcon />
+              </IconButton>
+            </Box>
           </HStack>
         </VStack>
         <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
           <Divider h="1px" />
         </Box>
-        <VStack spacing={2} align="flex-start" w="100%">
-          {itemList.length === 0 && (
-            <Text m={0} {...webkitGradientTextStyle} fontSize="md">
-              No items recorded.
-            </Text>
-          )}
-          {itemList.map((item, index) => {
-            console.log('item', item);
-
-            return (
-              <HStack
-                border={'2px solid black'}
-                borderRadius={'5px'}
-                w={'100%'}
+        {itemList.length === 0 ? (
+          <Text m={0} fontSize="md">
+            No items recorded.
+          </Text>
+        ) : (
+          <Accordion
+            overflowY={'auto'}
+            w={'100%'}
+            allowToggle
+            border={'none'}
+            display={'flex'}
+            flexDir={'column'}
+            gap={2}
+            paddingRight={4}
+          >
+            {itemList.map((item, index) => (
+              <Box
                 key={index}
+                p={'2px'}
+                borderRadius={'7px'}
+                bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
                 display={'flex'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-                px={2}
               >
-                <Text fontWeight="bold">{item.expenseDescription}</Text>
-                <Text>{item.category}</Text>
-                <Text>
-                  {item.amount} {item.currency}
-                </Text>
-                <CloseButton onClick={() => handleRemoveItem(index)} />
-              </HStack>
-            );
-          })}
-        </VStack>
+                <Box borderLeftRadius={'5px'} flex={1} bgColor={'black'} />
+                <AccordionItem
+                  flex={10}
+                  borderRightRadius={'5px'}
+                  {...webkitGradientBorderStyle}
+                >
+                  <AccordionButton paddingRight={2} display={'flex'} flex={'1'}>
+                    <Box
+                      flex={'5'}
+                      display={'flex'}
+                      flexDir={'row'}
+                      justifyContent={'space-between'}
+                    >
+                      <Box>{item.expenseCategoryId}</Box>
+                      <Box>{item.amount}</Box>
+                    </Box>
+                    <Box flex={'1'} textAlign={'end'}>
+                      <AccordionIcon />
+                      <CloseIcon
+                        fontSize={'xs'}
+                        onClick={(e) => handleRemoveItem(e, index)}
+                      />
+                    </Box>
+                  </AccordionButton>
+                  <AccordionPanel whiteSpace="wrap" p={2} pl={4}>
+                    <Text>{item.expenseDescription}</Text>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Box>
+            ))}
+          </Accordion>
+        )}
       </Box>
-    </>
+    </Box>
   );
 }
-
-const getStyles = () => ({
-  hStack: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: '1px',
-    borderRadius: 'lg',
-    p: 4,
-    width: '100%',
-    bg: 'gray.100',
-  },
-});

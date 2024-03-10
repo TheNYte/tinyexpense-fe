@@ -24,7 +24,7 @@ function PageShell({
             display="flex"
             flexDir={'column'}
             align="center"
-            justify="center"
+            justify="flex-start"
             p={4}
             bgGradient=" radial-gradient(gray.600, gray.800)"
           >
