@@ -39,6 +39,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">
       <head>
+        <base href=".">
         <meta charset="UTF-8" />
         <link rel="icon" href="${logoUrl}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
