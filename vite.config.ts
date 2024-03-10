@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import vike from 'vike/plugin';
 import {UserConfig} from 'vite';
+import {VitePWA} from 'vite-plugin-pwa';
 
 const config: UserConfig = {
   resolve: {
@@ -13,6 +14,7 @@ const config: UserConfig = {
     vike({
       prerender: true,
     }),
+    VitePWA({registerType: 'autoUpdate'}),
   ],
 };
 

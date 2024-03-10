@@ -48,7 +48,8 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-react-app": "^7.0.1",
     "prettier": "^3.1.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "vite-plugin-pwa": "^0.19.2"
   },
   "imports": {
     "#root/*": "./*.ts"
