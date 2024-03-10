@@ -17,7 +17,7 @@ function PageShell({
   return (
     <React.StrictMode>
       <PageContextProvider pageContext={pageContext}>
-        <AuthProvider>
+        <AuthProvider pageContext={pageContext}>
           <Flex
             w="100%"
             h="100%"

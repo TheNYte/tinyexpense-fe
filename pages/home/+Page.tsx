@@ -8,11 +8,12 @@ import {
   HStack,
   IconButton,
   CloseButton,
+  useToast,
 } from '@chakra-ui/react';
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {AddIcon} from '@chakra-ui/icons';
 import {CategoryMenu} from '#root/components/CategoryMenu';
-import {AuthContext, useAuth} from '#root/contexts/AuthContext';
+import {AuthContext, redirect, useAuth} from '#root/contexts/AuthContext';
 
 export default function Page() {
   const [category, setCategory] = useState<string>('');
@@ -63,7 +64,7 @@ export default function Page() {
 
   const {user, logout} = useAuth();
 
-  return (
+  return context?.user === null ? null : (
     <>
       <Box
         position={'absolute'}

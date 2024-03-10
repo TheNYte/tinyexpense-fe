@@ -2,6 +2,8 @@ import React, {createContext, useContext, useState, useEffect} from 'react';
 import {useCookies} from 'react-cookie';
 import {navigate} from 'vike/client/router';
 import {ApiConfig} from '#root/common/api_config';
+import {Spinner, useToast} from '@chakra-ui/react';
+import {PageContext} from 'vike/types';
 
 interface Account {
   id: string;
@@ -34,6 +36,7 @@ export const useAuth = () => {
 
 interface OwnProps {
   children: React.ReactNode;
+  pageContext: PageContext;
 }
 
 type Props = OwnProps;
@@ -46,9 +49,12 @@ export async function redirect(url: string) {
 }
 
 export const AuthProvider: React.FC<Props> = (props) => {
-  const {children} = props;
+  const {children, pageContext} = props;
   const [user, setUser] = useState<UserData | null>(null);
   const [cookies, setCookie, removeCookie] = useCookies(['userData']);
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [loggedOut, setLoggedOut] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     const userData = cookies.userData;
@@ -56,6 +62,7 @@ export const AuthProvider: React.FC<Props> = (props) => {
       // If the 'userData' cookie exists, set the user in the state
       setUser(userData);
     }
+    setLoading(false); // Set loading to false after checking for user data
   }, [cookies.userData]);
 
   const login = async (email: string, password: string) => {
@@ -81,16 +88,30 @@ export const AuthProvider: React.FC<Props> = (props) => {
         secure: true,
       });
       await redirect('/home');
+      toast({
+        title: 'Login Successful',
+        description: 'You have been successfully logged in.',
+        status: 'success', // Set status to 'success' for green color
+        duration: 5000, // Duration in milliseconds
+        isClosable: true, // Allow closing the toast
+      });
     } catch (error) {
       console.error('Login error:', error);
+      toast({
+        title: 'Invalid User',
+        description: 'Please check your password and email address.',
+        status: 'error',
+        duration: 5000, // Duration in milliseconds
+        isClosable: false,
+      });
     }
   };
 
   const logout = async () => {
     // Remove the 'userData' cookie on logout
-    removeCookie('userData');
+    removeCookie('userData', {path: '/'});
     setUser(null);
-    await redirect('/');
+    setLoggedOut(true);
   };
 
   const value: AuthContextType = {
@@ -99,5 +120,46 @@ export const AuthProvider: React.FC<Props> = (props) => {
     logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    const checkIfLoggedIn = async () => {
+      if (
+        !loggedOut &&
+        user === null &&
+        pageContext.urlPathname !== '/' &&
+        !loading
+      ) {
+        await redirect('/');
+        toast({
+          title: 'Invalid page request',
+          description: 'Please login to access this content.',
+          status: 'error',
+          duration: 5000, // Duration in milliseconds
+          isClosable: false,
+        });
+      } else if (
+        loggedOut &&
+        user === null &&
+        pageContext.urlPathname !== '/' &&
+        !loading
+      ) {
+        await redirect('/');
+        toast({
+          title: 'Logout Successful',
+          description: 'You have been successfully logged out.',
+          status: 'success', // Set status to 'success' for green color
+          duration: 5000, // Duration in milliseconds
+          isClosable: true, // Allow closing the toast
+        });
+      }
+    };
+
+    checkIfLoggedIn();
+  }, [user, toast, pageContext.urlPathname, loading, loggedOut]);
+
+  // Render children only when user context is available
+  return loading ? (
+    <Spinner />
+  ) : (
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+  );
 };

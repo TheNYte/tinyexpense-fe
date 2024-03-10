@@ -40,29 +40,45 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
   };
 
   return (
-    <Box>
+    <Box m={8} bgColor={'white'} display={'flex'} flexDir={'column'} gap={4}>
       <Formik initialValues={{email: '', password: ''}} onSubmit={handleSubmit}>
         {() => (
           <Form>
             <Field name="email" validate={validateEmail}>
-              {({field, form}) => (
-                <FormControl
-                  isInvalid={form.errors.email && form.touched.email}
-                >
-                  <FormLabel>Email Address</FormLabel>
-                  <Input {...field} placeholder="john.doe@example.com" />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
+              {({field, form, meta}) => {
+                return (
+                  <FormControl
+                    isInvalid={form.errors.email && form.touched.email}
+                  >
+                    <FormLabel>Email Address</FormLabel>
+                    <Input
+                      {...field}
+                      placeholder="john.doe@example.com"
+                      mb={meta.error ? 0 : 6}
+                    />
+                    {meta.error && (
+                      <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                    )}
+                  </FormControl>
+                );
+              }}
             </Field>
             <Field name="password" validate={validatePassword}>
-              {({field, form}) => (
+              {({field, form, meta}) => (
                 <FormControl
+                  mt={2}
                   isInvalid={form.errors.password && form.touched.password}
                 >
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field} placeholder="********" />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  <Input
+                    type="password"
+                    {...field}
+                    placeholder="********"
+                    mb={meta.error ? 0 : 6}
+                  />
+                  {meta.error && (
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  )}
                 </FormControl>
               )}
             </Field>
