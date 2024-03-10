@@ -85,7 +85,7 @@ const LoginForm = (props) => {
 };
 function Page() {
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Box, { w: "293px", m: 8, h: "120px", borderRadius: "lg", overflow: "hidden", children: /* @__PURE__ */ jsx(Flex, { h: "100%", alignItems: "center", justifyContent: "center", children: /* @__PURE__ */ jsx(Image, { src: "/public/logo.png" }) }) }),
+    /* @__PURE__ */ jsx(Box, { w: "293px", m: 8, h: "120px", borderRadius: "lg", overflow: "hidden", children: /* @__PURE__ */ jsx(Flex, { h: "100%", alignItems: "center", justifyContent: "center", children: /* @__PURE__ */ jsx(Image, { src: "/logo.png" }) }) }),
     /* @__PURE__ */ jsx(
       Box,
       {

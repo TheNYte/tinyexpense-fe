@@ -8,7 +8,7 @@ export default function Page() {
     <>
       <Box w="293px" m={8} h={'120px'} borderRadius={'lg'} overflow={'hidden'}>
         <Flex h="100%" alignItems="center" justifyContent="center">
-          <Image src={'/public/logo.png'} />
+          <Image src={'/logo.png'} />
         </Flex>
       </Box>
       {/* linear gradient 90 degrees #ff5757, #8c52ff */}
