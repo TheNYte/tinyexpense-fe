@@ -176,7 +176,7 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
       "virtual:vike:pageConfigValuesAll:client:/pages/profile",
       "virtual:vike:pageConfigValuesAll:client:/pages/register"
     ],
-    "file": "assets/entries/entry-client-routing.d2e6207a.js",
+    "file": "assets/entries/entry-client-routing.964f7150.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ],
@@ -215,7 +215,7 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/index": {
-    "file": "assets/entries/pages_index.d8327641.js",
+    "file": "assets/entries/pages_index.3ca48c1f.js",
     "imports": [
       "_chunk-9d3c0ac7.js",
       "_chunk-6121774a.js",
