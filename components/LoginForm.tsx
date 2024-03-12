@@ -53,7 +53,7 @@ export const LoginForm: React.FC<LoginFormProps> = (props) => {
                     <FormLabel>Email Address</FormLabel>
                     <Input
                       {...field}
-                      placeholder="john.doe@example.com"
+                      placeholder="domipapa@tinyexpense.com"
                       mb={meta.error ? 0 : 6}
                     />
                     {meta.error && (
