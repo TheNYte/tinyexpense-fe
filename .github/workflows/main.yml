@@ -7,7 +7,6 @@
 
   jobs:
     deploy:
-      needs: build-publish
       name: deploy application to vps
       runs-on: ubuntu-latest
       steps:
