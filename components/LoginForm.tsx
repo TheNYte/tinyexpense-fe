@@ -21,18 +21,6 @@ import {useAuth} from '#root/contexts/AuthContext';
 interface LoginFormProps {}
 
 export const LoginForm: React.FC<LoginFormProps> = (props) => {
-  // const mutation = useMutation({
-  //   mutationFn: (formData: any) => {
-  //     const userLoginData = `${formData.email}:${formData.password}`;
-  //     return fetch(`http://localhost:8080/account/login`, {
-  //       headers: {
-  //         Authorization: `Basic ${btoa(userLoginData)}`,
-  //       },
-  //       method: 'GET',
-  //     });
-  //   },
-  // });
-
   const {login} = useAuth();
 
   const handleSubmit = async (formData: {email: string; password: string}) => {

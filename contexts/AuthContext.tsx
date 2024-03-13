@@ -4,6 +4,7 @@ import {navigate} from 'vike/client/router';
 import {ApiConfig} from '#root/common/api_config';
 import {Spinner, useToast} from '@chakra-ui/react';
 import {PageContext} from 'vike/types';
+import axios from 'axios';
 
 interface Account {
   id: string;
@@ -68,7 +69,7 @@ export const AuthProvider: React.FC<Props> = (props) => {
   const login = async (email: string, password: string) => {
     try {
       const userLoginData = `${email}:${password}`;
-      const response = await fetch(ApiConfig.login, {
+      const {data, status} = await axios.get(ApiConfig.login, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -76,14 +77,13 @@ export const AuthProvider: React.FC<Props> = (props) => {
         },
       });
 
-      if (!response.ok) {
+      if (status !== 200) {
         throw new Error('Failed to login');
       }
 
-      const userData = await response.json();
-      setUser(userData);
+      setUser(data);
       // Set the 'userData' cookie after successful login
-      setCookie('userData', JSON.stringify(userData), {
+      setCookie('userData', JSON.stringify(data), {
         path: '/',
         secure: true,
       });
