@@ -72,7 +72,6 @@ export const AuthProvider: React.FC<Props> = (props) => {
       const {data, status} = await axios.get(ApiConfig.login, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Basic ${btoa(userLoginData)}`,
         },
       });
