@@ -24,10 +24,6 @@ export default function Page() {
     mutationFn: (formData: any) => {
       return fetch(ApiConfig.register, {
         body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'cors',
         method: 'POST',
       });
     },
