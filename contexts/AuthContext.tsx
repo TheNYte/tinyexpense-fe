@@ -10,10 +10,14 @@ interface Account {
   id: string;
   name: string;
   email: string;
+  currency: string;
+  userRegistration: string;
+  lastLogin: string;
+  updatedAt: string;
 }
 
 interface UserData {
-  account: Account;
+  userProfile: Account;
   token: string;
 }
 
@@ -44,9 +48,7 @@ type Props = OwnProps;
 
 export async function redirect(url: string) {
   const navigationPromise = navigate(url);
-  console.log("The URL changed but the new page hasn't rendered yet.");
   await navigationPromise;
-  console.log('The new page has finished rendering.');
 }
 
 export const AuthProvider: React.FC<Props> = (props) => {
@@ -57,20 +59,10 @@ export const AuthProvider: React.FC<Props> = (props) => {
   const [loggedOut, setLoggedOut] = useState(false);
   const toast = useToast();
 
-  useEffect(() => {
-    const userData = cookies.userData;
-    if (userData) {
-      // If the 'userData' cookie exists, set the user in the state
-      setUser(userData);
-    }
-    setLoading(false); // Set loading to false after checking for user data
-  }, [cookies.userData]);
-
   const login = async (email: string, password: string) => {
     try {
       const userLoginData = `${email}:${password}`;
-      const {data, status} = await axios.get(ApiConfig.login, {
-        method: 'GET',
+      const {data, status} = await axios.post(ApiConfig.login, null, {
         headers: {
           Authorization: `Basic ${btoa(userLoginData)}`,
         },
@@ -80,6 +72,13 @@ export const AuthProvider: React.FC<Props> = (props) => {
         throw new Error('Failed to login');
       }
 
+      const token = data.token;
+
+      // Configure Axios instance with the Bearer token
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+      console.log('login data', data);
       setUser(data);
       // Set the 'userData' cookie after successful login
       setCookie('userData', JSON.stringify(data), {
@@ -120,6 +119,18 @@ export const AuthProvider: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    const userData = cookies.userData;
+    if (userData) {
+      // If the 'userData' cookie exists, set the user in the state
+      setUser(userData);
+      // Configure Axios instance with the Bearer token
+      axios.defaults.headers.common['Authorization'] =
+        `Bearer ${userData?.token}`;
+      axios.defaults.headers.common['Content-Type'] = 'application/json';
+    }
+
+    setLoading(false); // Set loading to false after checking for user data
+
     const checkIfLoggedIn = async () => {
       if (
         !loggedOut &&
@@ -155,7 +166,14 @@ export const AuthProvider: React.FC<Props> = (props) => {
     };
 
     checkIfLoggedIn();
-  }, [user, toast, pageContext.urlPathname, loading, loggedOut]);
+  }, [
+    user,
+    toast,
+    pageContext.urlPathname,
+    loading,
+    loggedOut,
+    cookies.userData,
+  ]);
 
   // Render children only when user context is available
   return loading ? (

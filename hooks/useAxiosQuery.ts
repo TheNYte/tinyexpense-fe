@@ -4,7 +4,7 @@ import {useCallback} from 'react';
 
 export const useAxiosQuery = <T>(
   apiUrl: string,
-  options: AxiosRequestConfig<never> | undefined,
+  options?: AxiosRequestConfig<never> | undefined,
 ) => {
   const axiosFunction = useCallback(async () => {
     const response = await axios.get(apiUrl, options);

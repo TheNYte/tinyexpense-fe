@@ -45,7 +45,7 @@ export const Header: React.FC = () => {
         onClick={handleOnProfileClick}
       >
         <Text size={'md'} textTransform={'capitalize'}>
-          {user?.account?.name || 'Test user'}
+          {user?.userProfile?.name || 'Test user'}
         </Text>
         <Box
           p={'2px'}

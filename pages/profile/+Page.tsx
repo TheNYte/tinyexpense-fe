@@ -8,7 +8,9 @@ import {CurrencyMenu} from '#root/components/CurrencyMenu';
 
 export default function Page(): React.FC {
   const context = useContext(AuthContext);
-  const [currency, setCurrency] = useState<string>('');
+  const [currency, setCurrency] = useState<string>(
+    context?.user?.userProfile.currency,
+  );
   const [password, setPassword] = useState<string>('');
 
   return context?.user === null ? null : (

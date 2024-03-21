@@ -17,3 +17,8 @@
     color: #FFFFFF;
     background: linear-gradient(to right, #ff5757, #8c52ff);
 }
+
+.react-datepicker-wrapper {
+    visibility: hidden;
+    max-width: 0px;
+}

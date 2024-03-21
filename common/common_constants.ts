@@ -55,3 +55,21 @@ export const randomItems = [
   },
   // Add more items as needed
 ];
+
+export enum CategoryColors {
+  RED = 'red.500',
+  ORANGE = 'orange.500',
+  YELLOW = 'yellow.500',
+  GREEN = 'green.500',
+  BLUE = 'blue.500',
+  PURPLE = 'purple.500',
+  WHITE = 'white',
+  BLACK = 'black',
+}
+
+export enum Currency {
+  EUR = 'EUR',
+  USD = 'USD',
+  HUF = 'HUF',
+  CZK = 'CZK',
+}

@@ -7,6 +7,8 @@ import {
   Button,
   FormErrorMessage,
   Text,
+  Flex,
+  Image,
 } from '@chakra-ui/react';
 import {useMutation} from '@tanstack/react-query';
 import {Field, Form, Formik} from 'formik';
@@ -33,74 +35,83 @@ export default function Page() {
   });
 
   return (
-    <Box
-      p={8}
-      mx="auto"
-      w="293px"
-      bg="white"
-      rounded="lg"
-      shadow="md"
-      overflow="hidden"
-    >
-      <Formik
-        initialValues={{email: '', name: '', password: ''}}
-        onSubmit={(values, actions) => {
-          mutation.mutate(values, {
-            onSuccess: (data) => {
-              // Handle success, if needed
-              console.log('Data from server:', data);
-            },
-            onError: (error) => {
-              // Handle error, if needed
-              console.error('Error from server:', error);
-            },
-          });
-        }}
-      >
-        {() => (
-          <Form>
-            <Field name="email" validate={validateEmail}>
-              {({field, form}) => (
-                <FormControl
-                  isInvalid={form.errors.email && form.touched.email}
-                >
-                  <FormLabel>Email Address</FormLabel>
-                  <Input {...field} placeholder="john.doe@example.com" />
-                  <FormErrorMessage>{form.errors.email}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="name" validate={validateName}>
-              {({field, form}) => (
-                <FormControl isInvalid={form.errors.name && form.touched.name}>
-                  <FormLabel>Username</FormLabel>
-                  <Input {...field} placeholder="TvojTatkoRecords" />
-                  <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Field name="password" validate={validatePassword}>
-              {({field, form}) => (
-                <FormControl
-                  isInvalid={form.errors.password && form.touched.password}
-                >
-                  <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field} placeholder="********" />
-                  <FormErrorMessage>{form.errors.password}</FormErrorMessage>
-                </FormControl>
-              )}
-            </Field>
-            <Button mt={4} colorScheme="teal" type="submit" width="full">
-              Register
-            </Button>
-          </Form>
-        )}
-      </Formik>
-      <Box mt={2} textAlign="center">
-        <VikeLink href="/">
-          <Text color="teal.500">Already registered? Log in here.</Text>
-        </VikeLink>
+    <>
+      <Box w="293px" m={8} h={'120px'} borderRadius={'lg'} overflow={'hidden'}>
+        <Flex h="100%" alignItems="center" justifyContent="center">
+          <Image src={'/logo.png'} />
+        </Flex>
       </Box>
-    </Box>
+      <Box
+        p={8}
+        mx="auto"
+        w="293px"
+        bg="white"
+        rounded="lg"
+        shadow="md"
+        overflow="hidden"
+      >
+        <Formik
+          initialValues={{email: '', name: '', password: ''}}
+          onSubmit={(values, actions) => {
+            mutation.mutate(values, {
+              onSuccess: (data) => {
+                // Handle success, if needed
+                console.log('Data from server:', data);
+              },
+              onError: (error) => {
+                // Handle error, if needed
+                console.error('Error from server:', error);
+              },
+            });
+          }}
+        >
+          {() => (
+            <Form>
+              <Field name="email" validate={validateEmail}>
+                {({field, form}) => (
+                  <FormControl
+                    isInvalid={form.errors.email && form.touched.email}
+                  >
+                    <FormLabel>Email Address</FormLabel>
+                    <Input {...field} placeholder="john.doe@example.com" />
+                    <FormErrorMessage>{form.errors.email}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="name" validate={validateName}>
+                {({field, form}) => (
+                  <FormControl
+                    isInvalid={form.errors.name && form.touched.name}
+                  >
+                    <FormLabel>Username</FormLabel>
+                    <Input {...field} placeholder="TvojTatkoRecords" />
+                    <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Field name="password" validate={validatePassword}>
+                {({field, form}) => (
+                  <FormControl
+                    isInvalid={form.errors.password && form.touched.password}
+                  >
+                    <FormLabel>Password</FormLabel>
+                    <Input type="password" {...field} placeholder="********" />
+                    <FormErrorMessage>{form.errors.password}</FormErrorMessage>
+                  </FormControl>
+                )}
+              </Field>
+              <Button mt={4} colorScheme="teal" type="submit" width="full">
+                Register
+              </Button>
+            </Form>
+          )}
+        </Formik>
+        <Box mt={2} textAlign="center">
+          <VikeLink href="/">
+            <Text color="teal.500">Already registered? Log in here.</Text>
+          </VikeLink>
+        </Box>
+      </Box>
+    </>
   );
 }

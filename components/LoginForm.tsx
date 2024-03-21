@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {HTMLAttributes} from 'react';
 import {
   Box,
   Button,
@@ -9,18 +9,18 @@ import {
   Text,
 } from '@chakra-ui/react';
 import {VikeLink} from '#root/renderer/VikeLink';
-import {useMutation} from '@tanstack/react-query';
-import {Field, Form, Formik} from 'formik';
+import {Field, FieldAttributes, Form, Formik, FormikProps} from 'formik';
 import {
   validateEmail,
-  validateName,
   validatePassword,
 } from '#root/pages/register/register_helpers';
 import {useAuth} from '#root/contexts/AuthContext';
 
-interface LoginFormProps {}
+interface OwnProps {}
 
-export const LoginForm: React.FC<LoginFormProps> = (props) => {
+type Props = OwnProps;
+
+export const LoginForm: React.FC<Props> = (_props) => {
   const {login} = useAuth();
 
   const handleSubmit = async (formData: {email: string; password: string}) => {
