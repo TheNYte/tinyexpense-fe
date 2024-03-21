@@ -1,4 +1,4 @@
-import { i as import_0 } from "../chunks/chunk-ad4fb382.js";
+import { i as import_0 } from "../chunks/chunk-d49fde7d.js";
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import "@tanstack/react-query";
 import "react-dom/server";
@@ -7,6 +7,7 @@ import "vike/server";
 import "react";
 import "react-cookie";
 import "vike/client/router";
+import "axios";
 function Page({ is404 }) {
   if (is404) {
     return /* @__PURE__ */ jsxs(Fragment, { children: [

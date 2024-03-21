@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { Box, Text, Divider, Button } from "@chakra-ui/react";
-import { u as useAuth, r as redirect } from "./chunk-ad4fb382.js";
+import { u as useAuth, r as redirect } from "./chunk-d49fde7d.js";
 const webkitGradientBorderStyle = {
   bg: "#FFFFFFB2",
   border: "2px solid transparent",
@@ -8,33 +8,17 @@ const webkitGradientBorderStyle = {
   _focus: { border: "2px solid transparent" },
   _selected: { border: "2px solid transparent" }
 };
-const randomItems = [
-  {
-    expenseDescription: "Item 1",
-    expenseCategoryId: 1,
-    amount: 53,
-    currency: "EUR",
-    timestamp: "2023-04-17",
-    categoryColor: "black"
-  },
-  {
-    expenseDescription: "This is some bullshit ass text description. This is some bullshit ass text description.  This is some bullshit ass text description. ",
-    expenseCategoryId: 1,
-    amount: 53,
-    currency: "EUR",
-    timestamp: "2023-04-17",
-    categoryColor: "black"
-  },
-  {
-    expenseDescription: "Item 3",
-    expenseCategoryId: 1,
-    amount: 53,
-    currency: "EUR",
-    timestamp: "2023-04-17",
-    categoryColor: "black"
-  }
-  // Add more items as needed
-];
+var CategoryColors = /* @__PURE__ */ ((CategoryColors2) => {
+  CategoryColors2["RED"] = "red.500";
+  CategoryColors2["ORANGE"] = "orange.500";
+  CategoryColors2["YELLOW"] = "yellow.500";
+  CategoryColors2["GREEN"] = "green.500";
+  CategoryColors2["BLUE"] = "blue.500";
+  CategoryColors2["PURPLE"] = "purple.500";
+  CategoryColors2["WHITE"] = "white";
+  CategoryColors2["BLACK"] = "black";
+  return CategoryColors2;
+})(CategoryColors || {});
 const Header = () => {
   var _a;
   const { user, logout } = useAuth();
@@ -78,7 +62,7 @@ const Header = () => {
             alignItems: "center",
             onClick: handleOnProfileClick,
             children: [
-              /* @__PURE__ */ jsx(Text, { size: "md", textTransform: "capitalize", children: ((_a = user == null ? void 0 : user.account) == null ? void 0 : _a.name) || "Test user" }),
+              /* @__PURE__ */ jsx(Text, { size: "md", textTransform: "capitalize", children: ((_a = user == null ? void 0 : user.userProfile) == null ? void 0 : _a.name) || "Test user" }),
               /* @__PURE__ */ jsx(
                 Box,
                 {
@@ -107,7 +91,7 @@ const Header = () => {
   );
 };
 export {
+  CategoryColors as C,
   Header as H,
-  randomItems as r,
   webkitGradientBorderStyle as w
 };

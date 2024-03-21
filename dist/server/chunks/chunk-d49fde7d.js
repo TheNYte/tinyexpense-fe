@@ -6,6 +6,7 @@ import { escapeInject, dangerouslySkipEscape } from "vike/server";
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { useCookies, CookiesProvider } from "react-cookie";
 import { navigate } from "vike/client/router";
+import axios from "axios";
 const logoUrl = "/assets/static/logo.0ab59a12.svg";
 const Context = React.createContext(void 0);
 function PageContextProvider({ pageContext, children }) {
@@ -19,7 +20,10 @@ const PageShell$1 = "";
 const URL = "https://apitinyexpense.ftefy.ch";
 const ApiConfig = {
   login: `${URL}/account/login`,
-  register: `${URL}/account/create`
+  register: `${URL}/account/create`,
+  status: `${URL}/health/status`,
+  categories: `${URL}/categories`,
+  expenses: `${URL}/expenses`
 };
 const AuthContext = createContext(
   void 0
@@ -33,9 +37,7 @@ const useAuth = () => {
 };
 async function redirect(url) {
   const navigationPromise = navigate(url);
-  console.log("The URL changed but the new page hasn't rendered yet.");
   await navigationPromise;
-  console.log("The new page has finished rendering.");
 }
 const AuthProvider = (props) => {
   const { children, pageContext } = props;
@@ -44,29 +46,23 @@ const AuthProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [loggedOut, setLoggedOut] = useState(false);
   const toast = useToast();
-  useEffect(() => {
-    const userData = cookies.userData;
-    if (userData) {
-      setUser(userData);
-    }
-    setLoading(false);
-  }, [cookies.userData]);
   const login = async (email, password) => {
     try {
       const userLoginData = `${email}:${password}`;
-      const response = await fetch(ApiConfig.login, {
-        method: "GET",
+      const { data, status } = await axios.post(ApiConfig.login, null, {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Basic ${btoa(userLoginData)}`
         }
       });
-      if (!response.ok) {
+      if (status !== 200) {
         throw new Error("Failed to login");
       }
-      const userData = await response.json();
-      setUser(userData);
-      setCookie("userData", JSON.stringify(userData), {
+      const token = data.token;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.defaults.headers.common["Content-Type"] = "application/json";
+      console.log("login data", data);
+      setUser(data);
+      setCookie("userData", JSON.stringify(data), {
         path: "/",
         secure: true
       });
@@ -104,6 +100,13 @@ const AuthProvider = (props) => {
     logout
   };
   useEffect(() => {
+    const userData = cookies.userData;
+    if (userData) {
+      setUser(userData);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${userData == null ? void 0 : userData.token}`;
+      axios.defaults.headers.common["Content-Type"] = "application/json";
+    }
+    setLoading(false);
     const checkIfLoggedIn = async () => {
       if (!loggedOut && user === null && pageContext.urlPathname !== "/" && pageContext.urlPathname !== "/register" && !loading) {
         await redirect("/");
@@ -130,7 +133,14 @@ const AuthProvider = (props) => {
       }
     };
     checkIfLoggedIn();
-  }, [user, toast, pageContext.urlPathname, loading, loggedOut]);
+  }, [
+    user,
+    toast,
+    pageContext.urlPathname,
+    loading,
+    loggedOut,
+    cookies.userData
+  ]);
   return loading ? /* @__PURE__ */ jsx(Spinner, {}) : /* @__PURE__ */ jsx(AuthContext.Provider, { value, children });
 };
 function PageShell({
@@ -196,8 +206,8 @@ const import_0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   onRenderHtml
 }, Symbol.toStringTag, { value: "Module" }));
 export {
-  AuthContext as A,
-  ApiConfig as a,
+  ApiConfig as A,
+  AuthContext as a,
   usePageContext as b,
   import_0 as i,
   redirect as r,

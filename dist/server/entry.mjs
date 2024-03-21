@@ -129,40 +129,46 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
 {
   const assetsManifest = {
   "\u0000virtual:vike:pageConfigValuesAll:client:/pages/home.css": {
-    "file": "assets/static/home.825391bd.css",
+    "file": "assets/static/home.9040c679.css",
     "src": "\u0000virtual:vike:pageConfigValuesAll:client:/pages/home.css"
   },
-  "_chunk-6121774a.js": {
-    "file": "assets/chunks/chunk-6121774a.js",
-    "imports": [
-      "_chunk-b18ede8a.js",
-      "_chunk-9d3c0ac7.js"
-    ]
-  },
-  "_chunk-9d3c0ac7.js": {
+  "_chunk-26532c95.js": {
     "css": [
       "assets/static/onRenderClient.ff5f94e3.css"
     ],
-    "file": "assets/chunks/chunk-9d3c0ac7.js",
+    "file": "assets/chunks/chunk-26532c95.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ]
   },
-  "_chunk-b18ede8a.js": {
-    "file": "assets/chunks/chunk-b18ede8a.js",
+  "_chunk-82b87322.js": {
+    "file": "assets/chunks/chunk-82b87322.js",
     "imports": [
-      "_chunk-9d3c0ac7.js"
+      "_chunk-26532c95.js"
     ]
   },
-  "_chunk-bc1d4f37.js": {
-    "file": "assets/chunks/chunk-bc1d4f37.js",
+  "_chunk-9e0045e9.js": {
+    "file": "assets/chunks/chunk-9e0045e9.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
-      "_chunk-b18ede8a.js"
+      "_chunk-26532c95.js",
+      "_chunk-82b87322.js"
+    ]
+  },
+  "_chunk-bf4eec57.js": {
+    "file": "assets/chunks/chunk-bf4eec57.js",
+    "imports": [
+      "_chunk-26532c95.js"
     ]
   },
   "_chunk-d6cd9d78.js": {
     "file": "assets/chunks/chunk-d6cd9d78.js"
+  },
+  "_chunk-f747d0e1.js": {
+    "file": "assets/chunks/chunk-f747d0e1.js",
+    "imports": [
+      "_chunk-26532c95.js",
+      "_chunk-82b87322.js"
+    ]
   },
   "_onRenderClient.css": {
     "file": "assets/static/onRenderClient.ff5f94e3.css",
@@ -176,7 +182,7 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
       "virtual:vike:pageConfigValuesAll:client:/pages/profile",
       "virtual:vike:pageConfigValuesAll:client:/pages/register"
     ],
-    "file": "assets/entries/entry-client-routing.964f7150.js",
+    "file": "assets/entries/entry-client-routing.573c6110.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ],
@@ -184,9 +190,9 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     "src": "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js"
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/_error": {
-    "file": "assets/entries/pages_error.8b01fb96.js",
+    "file": "assets/entries/pages_error.df86e5c7.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
+      "_chunk-26532c95.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -198,13 +204,14 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/home": {
     "css": [
-      "assets/static/home.825391bd.css"
+      "assets/static/home.9040c679.css"
     ],
-    "file": "assets/entries/pages_home.a1c0a406.js",
+    "file": "assets/entries/pages_home.f9688bdc.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
-      "_chunk-bc1d4f37.js",
-      "_chunk-b18ede8a.js",
+      "_chunk-26532c95.js",
+      "_chunk-f747d0e1.js",
+      "_chunk-82b87322.js",
+      "_chunk-bf4eec57.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -215,11 +222,11 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/index": {
-    "file": "assets/entries/pages_index.3ca48c1f.js",
+    "file": "assets/entries/pages_index.05d25d61.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
-      "_chunk-6121774a.js",
-      "_chunk-b18ede8a.js",
+      "_chunk-26532c95.js",
+      "_chunk-9e0045e9.js",
+      "_chunk-82b87322.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -230,11 +237,11 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/profile": {
-    "file": "assets/entries/pages_profile.03970009.js",
+    "file": "assets/entries/pages_profile.1d76f624.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
-      "_chunk-bc1d4f37.js",
-      "_chunk-b18ede8a.js",
+      "_chunk-26532c95.js",
+      "_chunk-f747d0e1.js",
+      "_chunk-82b87322.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -245,11 +252,12 @@ const pageFiles = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/register": {
-    "file": "assets/entries/pages_register.b7b51674.js",
+    "file": "assets/entries/pages_register.af4e9bc7.js",
     "imports": [
-      "_chunk-9d3c0ac7.js",
-      "_chunk-6121774a.js",
-      "_chunk-b18ede8a.js",
+      "_chunk-26532c95.js",
+      "_chunk-bf4eec57.js",
+      "_chunk-9e0045e9.js",
+      "_chunk-82b87322.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,

@@ -1,13 +1,14 @@
-import { A as AuthContext, i as import_0 } from "../chunks/chunk-ad4fb382.js";
+import { a as AuthContext, i as import_0 } from "../chunks/chunk-d49fde7d.js";
 import { jsx, jsxs } from "react/jsx-runtime";
 import { Box, Select, Text, Input, Button } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { w as webkitGradientBorderStyle, H as Header } from "../chunks/chunk-f1739fd0.js";
+import { w as webkitGradientBorderStyle, H as Header } from "../chunks/chunk-fa339d0d.js";
 import "@tanstack/react-query";
 import "react-dom/server";
 import "vike/server";
 import "react-cookie";
 import "vike/client/router";
+import "axios";
 const CurrencyMenu = ({
   onChange,
   currentValue
@@ -43,8 +44,11 @@ const CurrencyMenu = ({
   );
 };
 function Page() {
+  var _a;
   const context = useContext(AuthContext);
-  const [currency, setCurrency] = useState("");
+  const [currency, setCurrency] = useState(
+    (_a = context == null ? void 0 : context.user) == null ? void 0 : _a.userProfile.currency
+  );
   const [password, setPassword] = useState("");
   return (context == null ? void 0 : context.user) === null ? null : /* @__PURE__ */ jsxs(
     Box,

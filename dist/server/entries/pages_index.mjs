@@ -1,7 +1,7 @@
-import { u as useAuth, i as import_0 } from "../chunks/chunk-ad4fb382.js";
+import { u as useAuth, i as import_0 } from "../chunks/chunk-d49fde7d.js";
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
 import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button, Text, Flex, Image } from "@chakra-ui/react";
-import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-77a86cf7.js";
+import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-46d6fc4c.js";
 import { Formik, Form, Field } from "formik";
 import "@tanstack/react-query";
 import "react-dom/server";
@@ -9,7 +9,8 @@ import "vike/server";
 import "react";
 import "react-cookie";
 import "vike/client/router";
-const LoginForm = (props) => {
+import "axios";
+const LoginForm = (_props) => {
   const { login } = useAuth();
   const handleSubmit = async (formData) => {
     await login(formData.email, formData.password);
