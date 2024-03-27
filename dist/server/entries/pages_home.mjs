@@ -7,7 +7,7 @@ import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from
 import DatePicker from "react-datepicker";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { isToday, isYesterday, isThisWeek, isThisMonth } from "date-fns";
+import { isAfter, isBefore, startOfToday, startOfYesterday, startOfWeek, startOfMonth } from "date-fns";
 import * as _ from "lodash";
 import "react-dom/server";
 import "vike/server";
@@ -291,18 +291,56 @@ const CustomModal = (props) => {
   ] });
 };
 function getDateRange(timestamp) {
-  const expenseDate = new Date(timestamp);
-  if (isToday(expenseDate)) {
-    return "Today";
-  } else if (isYesterday(expenseDate)) {
-    return "Yesterday";
-  } else if (isThisWeek(expenseDate)) {
-    return "Last week";
-  } else if (isThisMonth(expenseDate)) {
-    return "Last month";
+  const currentDate = /* @__PURE__ */ new Date();
+  const givenDate = timestamp;
+  if (isAfter(givenDate, currentDate)) {
+    return "In future";
+  } else if (isBefore(givenDate, startOfToday())) {
+    if (isBefore(givenDate, startOfYesterday())) {
+      if (isBefore(givenDate, startOfWeek(currentDate))) {
+        if (isBefore(givenDate, startOfMonth(currentDate))) {
+          return "Older";
+        } else {
+          return "Current Month";
+        }
+      } else {
+        return "Current Week";
+      }
+    } else {
+      return "Yesterday";
+    }
   } else {
-    return "Older";
+    return "Today";
   }
+}
+function displayDataByRange(timestamp, data) {
+  const currentDate = /* @__PURE__ */ new Date();
+  const givenDate = timestamp;
+  let range = "";
+  if (isAfter(givenDate, currentDate)) {
+    range = "In future";
+  } else if (isBefore(givenDate, startOfToday())) {
+    if (isBefore(givenDate, startOfYesterday())) {
+      if (isBefore(givenDate, startOfWeek(currentDate))) {
+        if (isBefore(givenDate, startOfMonth(currentDate))) {
+          range = "Older";
+        } else {
+          range = "Current Month";
+        }
+      } else {
+        range = "Current Week";
+      }
+    } else {
+      range = "Yesterday";
+    }
+  } else {
+    range = "Today";
+  }
+  const filteredData = data.filter((item) => {
+    const itemDate = item.dateTime;
+    return getDateRange(itemDate) === range;
+  });
+  return { range, data: filteredData };
 }
 const FilterCategoryMenu = ({
   onChange,
@@ -360,10 +398,12 @@ const FilterByDateTime = ({
           outlineColor: "transparent",
           onChange: (e) => onChange(e),
           children: [
+            /* @__PURE__ */ jsx("option", { value: "In future", children: "In future" }),
             /* @__PURE__ */ jsx("option", { value: "Today", children: "Today" }),
             /* @__PURE__ */ jsx("option", { value: "Yesterday", children: "Yesterday" }),
-            /* @__PURE__ */ jsx("option", { value: "Last week", children: "Last week" }),
-            /* @__PURE__ */ jsx("option", { value: "Last month", children: "Last month" })
+            /* @__PURE__ */ jsx("option", { value: "Current Week", children: "Current Week" }),
+            /* @__PURE__ */ jsx("option", { value: "Current Month", children: "Current Month" }),
+            /* @__PURE__ */ jsx("option", { value: "Older", children: "Older" })
           ]
         }
       )
@@ -376,7 +416,7 @@ function Page() {
   const [expenseDescription, setExpenseDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [selectedDate, setSelectedDate] = useState(
-    currentDate.toString()
+    currentDate.toISOString()
   );
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDateRange, setSelectedDateRange] = useState("");
@@ -427,11 +467,9 @@ function Page() {
   const handleAddItem = () => {
     let categoryItem;
     if (categoryId !== "" && amount > 0) {
-      if (typeof categoryId === "string" && categoriesData) {
-        categoryItem = categoriesData.find(
-          (categoryItem2) => categoryItem2.id === parseInt(categoryId, 10)
-        );
-      }
+      categoryItem = categoriesData == null ? void 0 : categoriesData.find(
+        (categoryItem2) => categoryItem2.id === categoryId
+      );
       const expenseData = {
         categoryId,
         expenseDescription,
@@ -462,7 +500,12 @@ function Page() {
   const handleAddNewCategory = () => {
     onOpen();
   };
-  const groupedSortedData = _.groupBy(filteredData, "dateTime");
+  const dataForGroup = filteredData == null ? void 0 : filteredData.map((item) => {
+    const resetedDate = new Date(item.dateTime);
+    resetedDate.setHours(0, 0, 0, 0);
+    return { ...item, dateTime: resetedDate.toISOString() };
+  });
+  const groupedSortedData = _.groupBy(dataForGroup, "dateTime");
   const displayedDateRanges = /* @__PURE__ */ new Set();
   return (context == null ? void 0 : context.user) === null ? /* @__PURE__ */ jsx(Box, {}) : /* @__PURE__ */ jsxs(
     Box,
@@ -516,7 +559,7 @@ function Page() {
                             CategoryMenu,
                             {
                               currentValue: categoryId,
-                              onChange: (e) => setCategoryId(e),
+                              onChange: (e) => setCategoryId(parseInt(e, 10)),
                               onNewCategoryClick: handleAddNewCategory,
                               categories: categoriesData
                             }
@@ -556,6 +599,7 @@ function Page() {
                                     value: amount,
                                     maxW: "70px",
                                     px: "2px",
+                                    onFocus: (e) => e.target.select(),
                                     onChange: (e) => setAmount(Number(e.target.value))
                                   }
                                 ),
@@ -662,7 +706,10 @@ function Page() {
                       paddingRight: 4,
                       children: Object.keys(groupedSortedData).map((timestamp) => {
                         const categorizedDate = getDateRange(timestamp);
-                        const expenses = groupedSortedData[timestamp];
+                        const { data: dataToDisplay } = displayDataByRange(
+                          timestamp,
+                          filteredData
+                        );
                         if (displayedDateRanges.has(categorizedDate)) {
                           return null;
                         }
@@ -686,7 +733,7 @@ function Page() {
                               )
                             }
                           ) }),
-                          expenses.map((item) => {
+                          dataToDisplay.map((item) => {
                             var _a;
                             const date = new Date(item.dateTime);
                             const formattedDate = date.toLocaleDateString();

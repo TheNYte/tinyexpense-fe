@@ -30,10 +30,12 @@ export const FilterByDateTime: React.FC<FilterByDateTimeProps> = ({
         outlineColor={'transparent'}
         onChange={(e) => onChange(e)}
       >
+        <option value="In future">In future</option>
         <option value="Today">Today</option>
         <option value="Yesterday">Yesterday</option>
-        <option value="Last week">Last week</option>
-        <option value="Last month">Last month</option>
+        <option value="Current Week">Current Week</option>
+        <option value="Current Month">Current Month</option>
+        <option value="Older">Older</option>
       </Select>
     </Box>
   );

@@ -35,7 +35,7 @@ import {ApiConfig} from '#root/common/api_config';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 import {CategoriesData, Expenses} from '#root/pages/home/home_types';
-import {getDateRange} from '#root/pages/home/home_helpers';
+import {displayDataByRange, getDateRange} from '#root/pages/home/home_helpers';
 import * as _ from 'lodash';
 import {FilterCategoryMenu} from '#root/components/FilterCategoryMenu';
 import {FilterByDateTime} from '#root/components/FilterByDateTime';
@@ -47,7 +47,7 @@ export default function Page(): React.FC {
   const [expenseDescription, setExpenseDescription] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState<string>(
-    currentDate.toString(),
+    currentDate.toISOString(),
   );
 
   const [selectedCategory, setSelectedCategory] = useState<number | string>('');
@@ -125,11 +125,9 @@ export default function Page(): React.FC {
   const handleAddItem = () => {
     let categoryItem: CategoriesData | undefined;
     if (categoryId !== '' && amount > 0) {
-      if (typeof categoryId === 'string' && categoriesData) {
-        categoryItem = categoriesData.find(
-          (categoryItem) => categoryItem.id === parseInt(categoryId, 10),
-        );
-      }
+      categoryItem = categoriesData?.find(
+        (categoryItem) => categoryItem.id === categoryId,
+      );
       const expenseData = {
         categoryId: categoryId,
         expenseDescription: expenseDescription,
@@ -164,7 +162,12 @@ export default function Page(): React.FC {
     onOpen();
   };
 
-  const groupedSortedData = _.groupBy(filteredData, 'dateTime');
+  const dataForGroup = filteredData?.map((item) => {
+    const resetedDate = new Date(item.dateTime);
+    resetedDate.setHours(0, 0, 0, 0);
+    return {...item, dateTime: resetedDate.toISOString()};
+  });
+  const groupedSortedData = _.groupBy(dataForGroup, 'dateTime');
   const displayedDateRanges = new Set<string>();
 
   return context?.user === null ? (
@@ -213,7 +216,7 @@ export default function Page(): React.FC {
             >
               <CategoryMenu
                 currentValue={categoryId}
-                onChange={(e) => setCategoryId(e)}
+                onChange={(e) => setCategoryId(parseInt(e, 10))}
                 onNewCategoryClick={handleAddNewCategory}
                 categories={categoriesData}
               />
@@ -242,6 +245,7 @@ export default function Page(): React.FC {
                     value={amount}
                     maxW={'70px'}
                     px={'2px'}
+                    onFocus={(e) => e.target.select()}
                     onChange={(e) => setAmount(Number(e.target.value))}
                   />
                   <InputRightAddon
@@ -331,7 +335,10 @@ export default function Page(): React.FC {
             >
               {Object.keys(groupedSortedData).map((timestamp) => {
                 const categorizedDate = getDateRange(timestamp);
-                const expenses = groupedSortedData[timestamp];
+                const {data: dataToDisplay} = displayDataByRange(
+                  timestamp,
+                  filteredData,
+                );
 
                 if (displayedDateRanges.has(categorizedDate)) {
                   return null;
@@ -358,7 +365,7 @@ export default function Page(): React.FC {
                         </Tag>
                       </Box>
                     </Box>
-                    {expenses.map((item) => {
+                    {dataToDisplay.map((item) => {
                       const date = new Date(item.dateTime);
                       const formattedDate = date.toLocaleDateString();
                       const formattedTime = date.toLocaleTimeString();
