@@ -1,5 +1,5 @@
 import { jsx } from "react/jsx-runtime";
-import { b as usePageContext } from "./chunk-d49fde7d.js";
+import { b as usePageContext } from "./chunk-609b579e.js";
 function VikeLink(props) {
   const pageContext = usePageContext();
   const className = [

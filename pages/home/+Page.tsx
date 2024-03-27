@@ -36,7 +36,7 @@ import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 import {CategoriesData, Expenses} from '#root/pages/home/home_types';
 import {getDateRange} from '#root/pages/home/home_helpers';
-import {groupBy, isEmpty} from 'lodash';
+import * as _ from 'lodash';
 import {FilterCategoryMenu} from '#root/components/FilterCategoryMenu';
 import {FilterByDateTime} from '#root/components/FilterByDateTime';
 
@@ -164,7 +164,7 @@ export default function Page(): React.FC {
     onOpen();
   };
 
-  const groupedSortedData = groupBy(filteredData, 'dateTime');
+  const groupedSortedData = _.groupBy(filteredData, 'dateTime');
   const displayedDateRanges = new Set<string>();
 
   console.log('context?.user', context?.user);
@@ -317,7 +317,7 @@ export default function Page(): React.FC {
               <Divider h="1px" />
             </Box>
           </Box>
-          {isEmpty(groupedSortedData) ? (
+          {_.isEmpty(groupedSortedData) ? (
             <Text m={0} fontSize="md">
               No items recorded.
             </Text>

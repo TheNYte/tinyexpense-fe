@@ -1,12 +1,19 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { Box, Text, Divider, Button } from "@chakra-ui/react";
-import { u as useAuth, r as redirect } from "./chunk-d49fde7d.js";
+import { Box, Text, Divider, Avatar, Button } from "@chakra-ui/react";
+import { LiaUser } from "react-icons/lia";
+import { u as useAuth, r as redirect } from "./chunk-609b579e.js";
 const webkitGradientBorderStyle = {
   bg: "#FFFFFFB2",
   border: "2px solid transparent",
   _hover: { border: "2px solid transparent" },
   _focus: { border: "2px solid transparent" },
   _selected: { border: "2px solid transparent" }
+};
+const webkitGradientTextStyle = {
+  bgGradient: "linear(to right, #ff5757, #8c52ff)",
+  bgClip: "text",
+  cursor: "pointer",
+  userSelect: "none"
 };
 var CategoryColors = /* @__PURE__ */ ((CategoryColors2) => {
   CategoryColors2["RED"] = "red.500";
@@ -31,7 +38,7 @@ const Header = () => {
   return /* @__PURE__ */ jsxs(
     Box,
     {
-      bgColor: "#FFFFFFB2",
+      bgColor: "#ffffff",
       borderRadius: 6,
       display: "flex",
       flexDir: "column",
@@ -44,6 +51,7 @@ const Header = () => {
         /* @__PURE__ */ jsx(
           Text,
           {
+            ...webkitGradientTextStyle,
             onClick: handleOnLogoClick,
             fontSize: "md",
             fontWeight: "bold",
@@ -62,7 +70,36 @@ const Header = () => {
             alignItems: "center",
             onClick: handleOnProfileClick,
             children: [
-              /* @__PURE__ */ jsx(Text, { size: "md", textTransform: "capitalize", children: ((_a = user == null ? void 0 : user.userProfile) == null ? void 0 : _a.name) || "Test user" }),
+              /* @__PURE__ */ jsxs(
+                Box,
+                {
+                  display: "flex",
+                  flexDir: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                  children: [
+                    /* @__PURE__ */ jsx(
+                      Avatar,
+                      {
+                        size: "sm",
+                        bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                        icon: /* @__PURE__ */ jsx(LiaUser, { fontSize: "1.5rem" })
+                      }
+                    ),
+                    /* @__PURE__ */ jsx(
+                      Text,
+                      {
+                        fontSize: "lg",
+                        fontWeight: "bold",
+                        ...webkitGradientTextStyle,
+                        textTransform: "capitalize",
+                        children: ((_a = user == null ? void 0 : user.userProfile) == null ? void 0 : _a.name) || "Test user"
+                      }
+                    )
+                  ]
+                }
+              ),
               /* @__PURE__ */ jsx(
                 Box,
                 {

@@ -1,16 +1,19 @@
-import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-d49fde7d.js";
+import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-609b579e.js";
 import { jsxs, jsx } from "react/jsx-runtime";
-import { Box, IconButton, Select, Popover, PopoverTrigger, Button, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, Center, PopoverBody, SimpleGrid, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, Stack, Text, ModalFooter, useDisclosure, VStack, HStack, InputGroup, InputRightAddon, Divider, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
-import { AddIcon, CalendarIcon, CloseIcon } from "@chakra-ui/icons";
-import { useState, useCallback, useMemo, useContext } from "react";
-import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-fa339d0d.js";
+import { Box, IconButton, Select, Popover, PopoverTrigger, Button, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, Center, PopoverBody, SimpleGrid, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, Stack, Text, ModalFooter, useDisclosure, VStack, HStack, InputGroup, InputRightAddon, Divider, Accordion, Tag, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
+import { AddIcon, CloseIcon } from "@chakra-ui/icons";
+import React, { useCallback, useState, useMemo, useContext } from "react";
+import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-8c7b1aba.js";
 import DatePicker from "react-datepicker";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { isToday, isYesterday, isThisWeek, isThisMonth } from "date-fns";
+import * as _ from "lodash";
 import "react-dom/server";
 import "vike/server";
 import "react-cookie";
 import "vike/client/router";
+import "react-icons/lia";
 const CategoryMenu = ({
   onChange,
   currentValue,
@@ -20,6 +23,7 @@ const CategoryMenu = ({
   return /* @__PURE__ */ jsxs(
     Box,
     {
+      flex: 4,
       p: "2px",
       borderRadius: "7px",
       bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
@@ -60,25 +64,15 @@ const CategoryMenu = ({
 };
 const ChakraDatePicker$1 = "";
 const ChakraDatePicker = ({ selectedDate, onChange }) => {
-  const currentDate = /* @__PURE__ */ new Date();
-  new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    1
-  );
-  new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
-    0
-  );
-  const [isOpen, setIsOpen] = useState(false);
   return /* @__PURE__ */ jsx(
     Box,
     {
+      maxW: "200px",
+      display: "flex",
       p: "2px",
       borderRadius: "7px",
       bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
-      children: /* @__PURE__ */ jsxs(
+      children: /* @__PURE__ */ jsx(
         Box,
         {
           h: 10,
@@ -86,22 +80,17 @@ const ChakraDatePicker = ({ selectedDate, onChange }) => {
           justifyContent: "flex-start",
           alignItems: "center",
           borderRadius: "5px",
-          w: "100%",
           p: 2,
           ...webkitGradientBorderStyle,
-          children: [
-            /* @__PURE__ */ jsx(CalendarIcon, { onClick: () => setIsOpen(!isOpen) }),
-            /* @__PURE__ */ jsx(
-              DatePicker,
-              {
-                selected: selectedDate,
-                open: isOpen,
-                onChange,
-                dateFormat: "dd. MM. yyyy",
-                popperPlacement: "left"
-              }
-            )
-          ]
+          children: /* @__PURE__ */ jsx(
+            DatePicker,
+            {
+              selected: selectedDate,
+              onChange,
+              dateFormat: "dd.MM.yyyy",
+              popperPlacement: "left"
+            }
+          )
         }
       )
     }
@@ -302,31 +291,103 @@ const CustomModal = (props) => {
     )
   ] });
 };
-const getCategorizedDate = (date) => {
-  const parsedDate = new Date(date).getTime();
-  const today = (/* @__PURE__ */ new Date()).getTime();
-  const diffTime = Math.abs(today - parsedDate);
-  const diffDays = Math.ceil(diffTime / (1e3 * 60 * 60 * 24));
-  if (diffDays === 0) {
+function getDateRange(timestamp) {
+  const expenseDate = new Date(timestamp);
+  if (isToday(expenseDate)) {
     return "Today";
-  } else if (diffDays === 1) {
+  } else if (isYesterday(expenseDate)) {
     return "Yesterday";
-  } else if (diffDays <= 7) {
-    return "Last Week";
-  } else if (diffDays <= 30) {
-    return "Last Month";
-  } else if (diffDays <= 365) {
-    return "Last Year";
+  } else if (isThisWeek(expenseDate)) {
+    return "Last week";
+  } else if (isThisMonth(expenseDate)) {
+    return "Last month";
   } else {
-    return "Earlier";
+    return "Older";
   }
+}
+const FilterCategoryMenu = ({
+  onChange,
+  currentValue,
+  categories
+}) => {
+  return /* @__PURE__ */ jsx(
+    Box,
+    {
+      flex: 1,
+      p: "2px",
+      borderRadius: "7px",
+      bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+      display: "flex",
+      flexDir: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      children: /* @__PURE__ */ jsx(
+        Select,
+        {
+          borderRadius: "5px",
+          ...webkitGradientBorderStyle,
+          placeholder: "Filter by category",
+          value: currentValue,
+          outlineColor: "transparent",
+          onChange: (e) => onChange(e),
+          children: categories == null ? void 0 : categories.map((category, index) => /* @__PURE__ */ jsx("option", { value: category.name, children: category.name }, index))
+        }
+      )
+    }
+  );
+};
+const FilterByDateTime = ({
+  onChange,
+  currentValue
+}) => {
+  console.log("currentValue", currentValue);
+  return /* @__PURE__ */ jsx(
+    Box,
+    {
+      flex: 1,
+      p: "2px",
+      borderRadius: "7px",
+      bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+      display: "flex",
+      flexDir: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      children: /* @__PURE__ */ jsxs(
+        Select,
+        {
+          borderRadius: "5px",
+          ...webkitGradientBorderStyle,
+          placeholder: "Filter by date range",
+          value: currentValue,
+          outlineColor: "transparent",
+          onChange: (e) => onChange(e),
+          children: [
+            /* @__PURE__ */ jsx("option", { value: "Today", children: "Today" }),
+            /* @__PURE__ */ jsx("option", { value: "Yesterday", children: "Yesterday" }),
+            /* @__PURE__ */ jsx("option", { value: "Last week", children: "Last week" }),
+            /* @__PURE__ */ jsx("option", { value: "Last month", children: "Last month" })
+          ]
+        }
+      )
+    }
+  );
 };
 function Page() {
   const currentDate = /* @__PURE__ */ new Date();
   const [categoryId, setCategoryId] = useState("");
   const [expenseDescription, setExpenseDescription] = useState("");
   const [amount, setAmount] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [selectedDate, setSelectedDate] = useState(
+    currentDate.toString()
+  );
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedDateRange, setSelectedDateRange] = useState("");
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+  const handleDateRangeChange = (event) => {
+    setSelectedDateRange(event.target.value);
+  };
   const context = useContext(AuthContext);
   const handleDateChange = (date) => {
     const parsedDate = new Date(date).toISOString();
@@ -335,20 +396,28 @@ function Page() {
   const { data: expensesData, refetch } = useAxiosQuery(
     ApiConfig.expenses
   );
-  const { data: categoriesData, isLoading } = useAxiosQuery(
+  const { data: categoriesData } = useAxiosQuery(
     ApiConfig.categories
   );
   const sortedData = expensesData == null ? void 0 : expensesData.sort((a, b) => {
     const dateA = new Date(a.dateTime);
     const dateB = new Date(b.dateTime);
     if (dateA < dateB) {
-      return -1;
-    } else if (dateA > dateB) {
       return 1;
+    } else if (dateA > dateB) {
+      return -1;
     } else {
-      return 0;
+      return;
     }
   });
+  const filteredData = useMemo(
+    () => sortedData == null ? void 0 : sortedData.filter((item) => {
+      const categoryMatch = selectedCategory === "" || item.categoryName === selectedCategory;
+      const dateRangeMatch = selectedDateRange === "" || getDateRange(item.dateTime) === selectedDateRange;
+      return categoryMatch && dateRangeMatch;
+    }),
+    [selectedCategory, selectedDateRange, sortedData]
+  );
   const mutateAddExpense = useMutation({
     mutationFn: (expenseData) => {
       return axios.post(ApiConfig.expenses, JSON.stringify(expenseData));
@@ -358,17 +427,20 @@ function Page() {
     }
   });
   const handleAddItem = () => {
+    let categoryItem;
     if (categoryId !== "" && amount > 0) {
-      const categoryItem = categoriesData == null ? void 0 : categoriesData.find(
-        (categoryItem2) => categoryItem2.id === parseInt(categoryId, 10)
-      );
+      if (typeof categoryId === "string" && categoriesData) {
+        categoryItem = categoriesData.find(
+          (categoryItem2) => categoryItem2.id === parseInt(categoryId, 10)
+        );
+      }
       const expenseData = {
         categoryId,
         expenseDescription,
         amount,
         currency: "EUR",
         dateTime: selectedDate,
-        color: categoryItem.color
+        color: categoryItem == null ? void 0 : categoryItem.color
       };
       mutateAddExpense.mutate(expenseData);
       setCategoryId("");
@@ -392,8 +464,10 @@ function Page() {
   const handleAddNewCategory = () => {
     onOpen();
   };
-  useDisclosure();
-  return (context == null ? void 0 : context.user) === null ? null : /* @__PURE__ */ jsxs(
+  const groupedSortedData = _.groupBy(filteredData, "dateTime");
+  const displayedDateRanges = /* @__PURE__ */ new Set();
+  console.log("context?.user", context == null ? void 0 : context.user);
+  return (context == null ? void 0 : context.user) === null ? /* @__PURE__ */ jsx(Box, {}) : /* @__PURE__ */ jsxs(
     Box,
     {
       w: "100%",
@@ -402,241 +476,325 @@ function Page() {
       flexDir: "column",
       alignItems: "space-between",
       gap: 4,
+      p: 2,
+      maxHeight: "calc(100vh - 35px)",
       children: [
         /* @__PURE__ */ jsx(Header, {}),
-        /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsx(
           Box,
           {
             p: 4,
             mx: "auto",
             minW: { base: "350px", sm: "500px" },
             maxW: { base: "350px", sm: "500px" },
-            bg: "#FFFFFFB2",
+            bg: "#FFFFFF",
             rounded: "lg",
             shadow: "md",
-            overflow: "hidden",
             display: "flex",
             flexDir: "column",
-            gap: 4,
-            maxHeight: "calc(100vh - 150px)",
-            children: [
-              /* @__PURE__ */ jsx(CustomModal, { isOpen, onClose }),
-              /* @__PURE__ */ jsxs(VStack, { spacing: 4, align: "flex-start", w: "100%", children: [
-                /* @__PURE__ */ jsxs(
-                  HStack,
-                  {
-                    spacing: 4,
-                    w: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    children: [
-                      /* @__PURE__ */ jsx(
-                        CategoryMenu,
-                        {
-                          currentValue: categoryId,
-                          onChange: (e) => setCategoryId(e),
-                          onNewCategoryClick: handleAddNewCategory,
-                          categories: categoriesData
-                        }
-                      ),
-                      /* @__PURE__ */ jsx(
-                        ChakraDatePicker,
-                        {
-                          selectedDate,
-                          onChange: handleDateChange
-                        }
-                      )
-                    ]
-                  }
-                ),
-                /* @__PURE__ */ jsxs(
-                  HStack,
-                  {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    w: "100%",
-                    children: [
-                      /* @__PURE__ */ jsx(
-                        Box,
-                        {
-                          p: "2px",
-                          borderRadius: "7px",
-                          bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
-                          children: /* @__PURE__ */ jsxs(InputGroup, { children: [
-                            /* @__PURE__ */ jsx(
-                              Input,
-                              {
-                                ...webkitGradientBorderStyle,
-                                type: "number",
-                                placeholder: "Amount",
-                                value: amount,
-                                maxW: "70px",
-                                px: "2px",
-                                onChange: (e) => setAmount(Number(e.target.value))
-                              }
-                            ),
-                            /* @__PURE__ */ jsx(
-                              InputRightAddon,
-                              {
-                                ...webkitGradientBorderStyle,
-                                px: "2px",
-                                paddingLeft: 0,
-                                children: context == null ? void 0 : context.user.userProfile.currency
-                              }
-                            )
-                          ] })
-                        }
-                      ),
-                      /* @__PURE__ */ jsx(
-                        Box,
-                        {
-                          p: "2px",
-                          borderRadius: "7px",
-                          bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
-                          w: { base: "75%", md: "50%" },
-                          children: /* @__PURE__ */ jsx(
-                            Input,
-                            {
-                              borderRadius: "5px",
-                              ...webkitGradientBorderStyle,
-                              color: "black",
-                              _placeholder: { color: "black" },
-                              placeholder: "Item description",
-                              value: expenseDescription,
-                              onChange: (e) => setExpenseDescription(e.target.value)
-                            }
-                          )
-                        }
-                      ),
-                      /* @__PURE__ */ jsx(
-                        Box,
-                        {
-                          p: "2px",
-                          borderRadius: "7px",
-                          bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
-                          children: /* @__PURE__ */ jsx(
-                            IconButton,
-                            {
-                              bgColor: "#FFFFFFB2",
-                              "aria-label": "Add Item",
-                              onClick: handleAddItem,
-                              children: /* @__PURE__ */ jsx(AddIcon, {})
-                            }
-                          )
-                        }
-                      )
-                    ]
-                  }
-                )
-              ] }),
-              /* @__PURE__ */ jsx(Box, { bgGradient: "linear(to-r, #ff5757, #8c52ff)", h: "2px", w: "100%", children: /* @__PURE__ */ jsx(Divider, { h: "1px" }) }),
-              (sortedData == null ? void 0 : sortedData.length) === 0 ? /* @__PURE__ */ jsx(Text, { m: 0, fontSize: "md", children: "No items recorded." }) : /* @__PURE__ */ jsx(
-                Accordion,
-                {
-                  overflowY: "auto",
-                  w: "100%",
-                  allowToggle: true,
-                  border: "none",
-                  display: "flex",
-                  flexDir: "column",
-                  gap: 2,
-                  paddingRight: 4,
-                  children: expensesData == null ? void 0 : expensesData.map((item) => {
-                    var _a;
-                    const date = new Date(item.dateTime);
-                    getCategorizedDate(item.dateTime);
-                    const formattedDate = date.toLocaleDateString();
-                    const formattedTime = date.toLocaleTimeString();
-                    return /* @__PURE__ */ jsxs(
-                      Box,
+            overflow: "hidden",
+            children: /* @__PURE__ */ jsxs(
+              Box,
+              {
+                display: "flex",
+                flexDir: "column",
+                alignItems: "space-between",
+                gap: 4,
+                overflow: "hidden",
+                overflowY: "auto",
+                children: [
+                  /* @__PURE__ */ jsx(CustomModal, { isOpen, onClose }),
+                  /* @__PURE__ */ jsxs(VStack, { spacing: 4, align: "flex-start", w: "100%", children: [
+                    /* @__PURE__ */ jsxs(
+                      HStack,
                       {
-                        p: "2px",
-                        borderRadius: "7px",
-                        bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                        spacing: 4,
+                        w: "100%",
                         display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        pr: 4,
+                        children: [
+                          /* @__PURE__ */ jsx(
+                            CategoryMenu,
+                            {
+                              currentValue: categoryId,
+                              onChange: (e) => setCategoryId(e),
+                              onNewCategoryClick: handleAddNewCategory,
+                              categories: categoriesData
+                            }
+                          ),
+                          /* @__PURE__ */ jsx(
+                            ChakraDatePicker,
+                            {
+                              selectedDate,
+                              onChange: handleDateChange
+                            }
+                          )
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ jsxs(
+                      HStack,
+                      {
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        w: "100%",
+                        pr: 4,
                         children: [
                           /* @__PURE__ */ jsx(
                             Box,
                             {
-                              borderLeftRadius: "5px",
-                              flex: 1,
-                              bgColor: CategoryColors[item.color]
-                            }
-                          ),
-                          /* @__PURE__ */ jsxs(
-                            AccordionItem,
-                            {
-                              flex: 10,
-                              borderRightRadius: "5px",
-                              ...webkitGradientBorderStyle,
-                              children: [
-                                /* @__PURE__ */ jsxs(
-                                  AccordionButton,
+                              p: "2px",
+                              borderRadius: "7px",
+                              bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                              children: /* @__PURE__ */ jsxs(InputGroup, { children: [
+                                /* @__PURE__ */ jsx(
+                                  Input,
                                   {
-                                    paddingRight: 2,
-                                    display: "flex",
-                                    flex: "1",
-                                    children: [
-                                      /* @__PURE__ */ jsxs(
-                                        Box,
-                                        {
-                                          flex: "5",
-                                          display: "flex",
-                                          flexDir: "row",
-                                          justifyContent: "space-between",
-                                          children: [
-                                            /* @__PURE__ */ jsx(Box, { children: item.categoryName }),
-                                            /* @__PURE__ */ jsx(Box, { children: `${item.amount} ${(_a = context == null ? void 0 : context.user) == null ? void 0 : _a.userProfile.currency}` })
-                                          ]
-                                        }
-                                      ),
-                                      /* @__PURE__ */ jsxs(
-                                        Box,
-                                        {
-                                          flex: "1",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          gap: 4,
-                                          textAlign: "end",
-                                          children: [
-                                            /* @__PURE__ */ jsx(AccordionIcon, {}),
-                                            /* @__PURE__ */ jsx(
-                                              CloseIcon,
-                                              {
-                                                fontSize: "xs",
-                                                onClick: (e) => handleRemoveItem(item.id, e)
-                                              }
-                                            )
-                                          ]
-                                        }
-                                      )
-                                    ]
+                                    ...webkitGradientBorderStyle,
+                                    type: "number",
+                                    placeholder: "Amount",
+                                    value: amount,
+                                    maxW: "70px",
+                                    px: "2px",
+                                    onChange: (e) => setAmount(Number(e.target.value))
                                   }
                                 ),
-                                /* @__PURE__ */ jsxs(AccordionPanel, { whiteSpace: "wrap", p: 2, gap: "1px", pl: 4, children: [
-                                  /* @__PURE__ */ jsx(
-                                    Text,
-                                    {
-                                      fontSize: "xs",
-                                      children: `${formattedDate} - ${formattedTime}`
-                                    }
-                                  ),
-                                  /* @__PURE__ */ jsx(Text, { children: item.expenseDescription })
-                                ] })
-                              ]
+                                /* @__PURE__ */ jsx(
+                                  InputRightAddon,
+                                  {
+                                    ...webkitGradientBorderStyle,
+                                    px: "2px",
+                                    paddingLeft: 0,
+                                    children: context == null ? void 0 : context.user.userProfile.currency
+                                  }
+                                )
+                              ] })
+                            }
+                          ),
+                          /* @__PURE__ */ jsx(
+                            Box,
+                            {
+                              p: "2px",
+                              borderRadius: "7px",
+                              bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                              w: { base: "75%", md: "50%" },
+                              children: /* @__PURE__ */ jsx(
+                                Input,
+                                {
+                                  borderRadius: "5px",
+                                  ...webkitGradientBorderStyle,
+                                  color: "black",
+                                  _placeholder: { color: "black" },
+                                  placeholder: "Item description",
+                                  value: expenseDescription,
+                                  onChange: (e) => setExpenseDescription(e.target.value)
+                                }
+                              )
+                            }
+                          ),
+                          /* @__PURE__ */ jsx(
+                            Box,
+                            {
+                              p: "2px",
+                              borderRadius: "7px",
+                              bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                              children: /* @__PURE__ */ jsx(
+                                IconButton,
+                                {
+                                  bgColor: "#FFFFFFB2",
+                                  "aria-label": "Add Item",
+                                  onClick: handleAddItem,
+                                  children: /* @__PURE__ */ jsx(AddIcon, {})
+                                }
+                              )
                             }
                           )
                         ]
-                      },
-                      item.id
-                    );
-                  })
-                }
-              )
-            ]
+                      }
+                    ),
+                    /* @__PURE__ */ jsx(Box, { w: "100%", h: "100%", pr: 4, children: /* @__PURE__ */ jsx(
+                      Box,
+                      {
+                        bgGradient: "linear(to-r, #ff5757, #8c52ff)",
+                        h: "2px",
+                        w: "100%",
+                        children: /* @__PURE__ */ jsx(Divider, { h: "1px" })
+                      }
+                    ) }),
+                    /* @__PURE__ */ jsxs(
+                      HStack,
+                      {
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        w: "100%",
+                        pr: 4,
+                        children: [
+                          /* @__PURE__ */ jsx(
+                            FilterCategoryMenu,
+                            {
+                              currentValue: selectedCategory,
+                              onChange: handleCategoryChange,
+                              categories: categoriesData
+                            }
+                          ),
+                          /* @__PURE__ */ jsx(
+                            FilterByDateTime,
+                            {
+                              currentValue: selectedDateRange,
+                              onChange: handleDateRangeChange
+                            }
+                          )
+                        ]
+                      }
+                    )
+                  ] }),
+                  /* @__PURE__ */ jsx(Box, { w: "100%", h: "100%", pr: 4, children: /* @__PURE__ */ jsx(Box, { bgGradient: "linear(to-r, #ff5757, #8c52ff)", h: "2px", w: "100%", children: /* @__PURE__ */ jsx(Divider, { h: "1px" }) }) }),
+                  _.isEmpty(groupedSortedData) ? /* @__PURE__ */ jsx(Text, { m: 0, fontSize: "md", children: "No items recorded." }) : /* @__PURE__ */ jsx(
+                    Accordion,
+                    {
+                      w: "100%",
+                      allowToggle: true,
+                      border: "none",
+                      display: "flex",
+                      flexDir: "column",
+                      gap: 2,
+                      paddingRight: 4,
+                      children: Object.keys(groupedSortedData).map((timestamp) => {
+                        const categorizedDate = getDateRange(timestamp);
+                        const expenses = groupedSortedData[timestamp];
+                        if (displayedDateRanges.has(categorizedDate)) {
+                          return null;
+                        }
+                        displayedDateRanges.add(categorizedDate);
+                        return /* @__PURE__ */ jsxs(React.Fragment, { children: [
+                          /* @__PURE__ */ jsx(Box, { display: "flex", children: /* @__PURE__ */ jsx(
+                            Box,
+                            {
+                              bgGradient: "linear(to right, #ff5757, #8c52ff)",
+                              p: "2px",
+                              display: "flex",
+                              borderRadius: "7px",
+                              children: /* @__PURE__ */ jsx(
+                                Tag,
+                                {
+                                  borderRadius: "5px",
+                                  bgGradient: "linear(to right, #ff5757B2, #8c52ffB2)",
+                                  size: "sm",
+                                  children: /* @__PURE__ */ jsx(Text, { fontSize: "md", fontWeight: "bold", children: categorizedDate })
+                                }
+                              )
+                            }
+                          ) }),
+                          expenses.map((item) => {
+                            var _a;
+                            const date = new Date(item.dateTime);
+                            const formattedDate = date.toLocaleDateString();
+                            const formattedTime = date.toLocaleTimeString();
+                            return /* @__PURE__ */ jsxs(
+                              Box,
+                              {
+                                p: "2px",
+                                borderRadius: "7px",
+                                bgGradient: "linear-gradient(to right, #ff5757, #8c52ff)",
+                                display: "flex",
+                                children: [
+                                  /* @__PURE__ */ jsx(
+                                    Box,
+                                    {
+                                      borderLeftRadius: "5px",
+                                      flex: 1,
+                                      bgColor: CategoryColors[item.color]
+                                    }
+                                  ),
+                                  /* @__PURE__ */ jsxs(
+                                    AccordionItem,
+                                    {
+                                      flex: 10,
+                                      borderRightRadius: "5px",
+                                      ...webkitGradientBorderStyle,
+                                      children: [
+                                        /* @__PURE__ */ jsxs(
+                                          AccordionButton,
+                                          {
+                                            paddingRight: 2,
+                                            display: "flex",
+                                            flex: "1",
+                                            children: [
+                                              /* @__PURE__ */ jsxs(
+                                                Box,
+                                                {
+                                                  flex: "5",
+                                                  display: "flex",
+                                                  flexDir: "row",
+                                                  justifyContent: "space-between",
+                                                  children: [
+                                                    /* @__PURE__ */ jsx(Box, { children: item.categoryName }),
+                                                    /* @__PURE__ */ jsx(Box, { children: `${item.amount} ${(_a = context == null ? void 0 : context.user) == null ? void 0 : _a.userProfile.currency}` })
+                                                  ]
+                                                }
+                                              ),
+                                              /* @__PURE__ */ jsxs(
+                                                Box,
+                                                {
+                                                  flex: "1",
+                                                  display: "flex",
+                                                  justifyContent: "center",
+                                                  alignItems: "center",
+                                                  gap: 4,
+                                                  textAlign: "end",
+                                                  children: [
+                                                    /* @__PURE__ */ jsx(AccordionIcon, {}),
+                                                    /* @__PURE__ */ jsx(
+                                                      CloseIcon,
+                                                      {
+                                                        fontSize: "xs",
+                                                        onClick: (e) => handleRemoveItem(item.id, e)
+                                                      }
+                                                    )
+                                                  ]
+                                                }
+                                              )
+                                            ]
+                                          }
+                                        ),
+                                        /* @__PURE__ */ jsxs(
+                                          AccordionPanel,
+                                          {
+                                            whiteSpace: "wrap",
+                                            p: 2,
+                                            gap: "1px",
+                                            pl: 4,
+                                            children: [
+                                              /* @__PURE__ */ jsx(
+                                                Text,
+                                                {
+                                                  fontSize: "xs",
+                                                  children: `${formattedDate} - ${formattedTime}`
+                                                }
+                                              ),
+                                              /* @__PURE__ */ jsx(Text, { children: item.expenseDescription })
+                                            ]
+                                          }
+                                        )
+                                      ]
+                                    }
+                                  )
+                                ]
+                              },
+                              item.id
+                            );
+                          })
+                        ] }, timestamp);
+                      })
+                    }
+                  )
+                ]
+              }
+            )
           }
         )
       ]

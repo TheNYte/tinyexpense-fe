@@ -1,9 +1,9 @@
-import { A as ApiConfig, r as redirect, i as import_0 } from "../chunks/chunk-d49fde7d.js";
+import { A as ApiConfig, r as redirect, i as import_0 } from "../chunks/chunk-609b579e.js";
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { Box, Flex, Image, FormControl, FormLabel, Input, FormErrorMessage, Button, Text } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { Formik, Form, Field } from "formik";
-import { v as validateEmail, b as validateName, a as validatePassword, V as VikeLink } from "../chunks/chunk-46d6fc4c.js";
+import { v as validateEmail, b as validateName, a as validatePassword, V as VikeLink } from "../chunks/chunk-b04a49c4.js";
 import "react-dom/server";
 import "vike/server";
 import "react";
@@ -50,44 +50,88 @@ function Page() {
                 });
               },
               children: () => /* @__PURE__ */ jsxs(Form, { children: [
-                /* @__PURE__ */ jsx(Field, { name: "email", validate: validateEmail, children: ({ field, form }) => /* @__PURE__ */ jsxs(
+                /* @__PURE__ */ jsx(Field, { name: "email", validate: validateEmail, children: ({ field, form, meta }) => /* @__PURE__ */ jsxs(
                   FormControl,
                   {
                     isInvalid: form.errors.email && form.touched.email,
                     children: [
                       /* @__PURE__ */ jsx(FormLabel, { children: "Email Address" }),
-                      /* @__PURE__ */ jsx(Input, { ...field, placeholder: "john.doe@example.com" }),
+                      /* @__PURE__ */ jsx(
+                        Input,
+                        {
+                          ...field,
+                          placeholder: "john.doe@example.com",
+                          mb: meta.error ? 0 : 6
+                        }
+                      ),
                       /* @__PURE__ */ jsx(FormErrorMessage, { children: form.errors.email })
                     ]
                   }
                 ) }),
-                /* @__PURE__ */ jsx(Field, { name: "name", validate: validateName, children: ({ field, form }) => /* @__PURE__ */ jsxs(
+                /* @__PURE__ */ jsx(Field, { name: "name", validate: validateName, children: ({ field, form, meta }) => /* @__PURE__ */ jsxs(
                   FormControl,
                   {
                     isInvalid: form.errors.name && form.touched.name,
                     children: [
                       /* @__PURE__ */ jsx(FormLabel, { children: "Username" }),
-                      /* @__PURE__ */ jsx(Input, { ...field, placeholder: "TvojTatkoRecords" }),
+                      /* @__PURE__ */ jsx(
+                        Input,
+                        {
+                          ...field,
+                          placeholder: "TvojTatkoRecords",
+                          mb: meta.error ? 0 : 6
+                        }
+                      ),
                       /* @__PURE__ */ jsx(FormErrorMessage, { children: form.errors.name })
                     ]
                   }
                 ) }),
-                /* @__PURE__ */ jsx(Field, { name: "password", validate: validatePassword, children: ({ field, form }) => /* @__PURE__ */ jsxs(
+                /* @__PURE__ */ jsx(Field, { name: "password", validate: validatePassword, children: ({ field, form, meta }) => /* @__PURE__ */ jsxs(
                   FormControl,
                   {
                     isInvalid: form.errors.password && form.touched.password,
                     children: [
                       /* @__PURE__ */ jsx(FormLabel, { children: "Password" }),
-                      /* @__PURE__ */ jsx(Input, { type: "password", ...field, placeholder: "********" }),
+                      /* @__PURE__ */ jsx(
+                        Input,
+                        {
+                          type: "password",
+                          ...field,
+                          placeholder: "********",
+                          mb: meta.error ? 0 : 6
+                        }
+                      ),
                       /* @__PURE__ */ jsx(FormErrorMessage, { children: form.errors.password })
                     ]
                   }
                 ) }),
-                /* @__PURE__ */ jsx(Button, { mt: 4, colorScheme: "teal", type: "submit", width: "full", children: "Register" })
+                /* @__PURE__ */ jsx(
+                  Button,
+                  {
+                    mt: 4,
+                    background: "linear-gradient(to right, #ff5757, #8c52ff)",
+                    color: "white",
+                    _hover: {
+                      background: "linear-gradient(to right, #8c52ff, #ff5757)",
+                      color: "white"
+                    },
+                    type: "submit",
+                    width: "full",
+                    children: "Register"
+                  }
+                )
               ] })
             }
           ),
-          /* @__PURE__ */ jsx(Box, { mt: 2, textAlign: "center", children: /* @__PURE__ */ jsx(VikeLink, { href: "/", children: /* @__PURE__ */ jsx(Text, { color: "teal.500", children: "Already registered? Log in here." }) }) })
+          /* @__PURE__ */ jsx(Box, { mt: 2, textAlign: "center", children: /* @__PURE__ */ jsx(VikeLink, { href: "/", children: /* @__PURE__ */ jsx(
+            Text,
+            {
+              backgroundImage: "linear-gradient(to right, #ff5757, #8c52ff)",
+              color: "transparent",
+              style: { WebkitBackgroundClip: "text" },
+              children: "Already registered? Log in here."
+            }
+          ) }) })
         ]
       }
     )

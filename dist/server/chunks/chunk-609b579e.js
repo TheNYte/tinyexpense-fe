@@ -23,7 +23,8 @@ const ApiConfig = {
   register: `${URL}/account/create`,
   status: `${URL}/health/status`,
   categories: `${URL}/categories`,
-  expenses: `${URL}/expenses`
+  expenses: `${URL}/expenses`,
+  changePassword: `${URL}/account/change-password`
 };
 const AuthContext = createContext(
   void 0
