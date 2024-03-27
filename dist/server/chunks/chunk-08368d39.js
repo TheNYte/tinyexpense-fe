@@ -7,7 +7,6 @@ import React, { useContext, createContext, useState, useEffect } from "react";
 import { useCookies, CookiesProvider } from "react-cookie";
 import { navigate } from "vike/client/router";
 import axios from "axios";
-const logoUrl = "/assets/static/logo.0ab59a12.svg";
 const Context = React.createContext(void 0);
 function PageContextProvider({ pageContext, children }) {
   return /* @__PURE__ */ jsx(Context.Provider, { value: pageContext, children });
@@ -171,6 +170,7 @@ function getPageTitle(pageContext) {
   );
   return title;
 }
+const favicon = "/assets/static/app_icon_192.dba65f97.svg";
 var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
 var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
@@ -184,10 +184,10 @@ const onRenderHtml = async (pageContext) => {
   const title = getPageTitle(pageContext);
   const { documentProps } = pageContext.exports;
   const desc = documentProps && documentProps.description || "App using Vite + Vike";
-  const documentHtml = escapeInject(_a || (_a = __template(['<!DOCTYPE html>\n    <html lang="en">\n      <head>\n        <base href=".">\n        <meta charset="UTF-8" />\n        <link rel="icon" href="', '" />\n        <link rel="manifest" href="/manifest.webmanifest">\n        <script src="registerSW.js"><\/script>\n        <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n        <meta name="description" content="', '" />\n        <title>', `</title>
+  const documentHtml = escapeInject(_a || (_a = __template(['<!DOCTYPE html>\n    <html lang="en">\n      <head>\n        <base href=".">\n        <meta charset="UTF-8" />\n        <link rel="icon" href="', '" />\n        <link rel="manifest" href="/manifest.webmanifest">\n        <script src="./registerSW.js"><\/script>\n        <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n        <meta name="description" content="', '" />\n        <title>', `</title>
       </head>
       <body>
-        <div id="react-root" style='height:100vh'>`, "</div>\n      </body>\n    </html>"])), logoUrl, desc, title, dangerouslySkipEscape(
+        <div id="react-root" style='height:100vh'>`, "</div>\n      </body>\n    </html>"])), favicon, desc, title, dangerouslySkipEscape(
     pageHtml
   ));
   return {

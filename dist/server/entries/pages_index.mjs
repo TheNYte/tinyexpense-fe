@@ -1,7 +1,7 @@
-import { u as useAuth, i as import_0 } from "../chunks/chunk-145576f8.js";
+import { u as useAuth, i as import_0 } from "../chunks/chunk-08368d39.js";
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
 import { Box, FormControl, FormLabel, Input, FormErrorMessage, Button, Text, Flex, Image } from "@chakra-ui/react";
-import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-860eeaa5.js";
+import { v as validateEmail, a as validatePassword, V as VikeLink } from "../chunks/chunk-b6f74459.js";
 import { Formik, Form, Field } from "formik";
 import "@tanstack/react-query";
 import "react-dom/server";
@@ -108,6 +108,11 @@ const import_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: Page
 }, Symbol.toStringTag, { value: "Module" }));
+const title = "Tinyexpense | Manage your expenses the right way!";
+const import_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  title
+}, Symbol.toStringTag, { value: "Module" }));
 const configValuesImported = [
   {
     configName: "onRenderHtml",
@@ -120,6 +125,12 @@ const configValuesImported = [
     importPath: "/pages/index/+Page.tsx",
     isValueFile: true,
     exportValues: import_1
+  },
+  {
+    configName: "title",
+    importPath: "/pages/index/+title.ts",
+    isValueFile: true,
+    exportValues: import_2
   }
 ];
 const configValuesSerialized = {

@@ -1,8 +1,8 @@
-import { a as AuthContext, u as useAuth, A as ApiConfig, i as import_0 } from "../chunks/chunk-145576f8.js";
+import { a as AuthContext, u as useAuth, A as ApiConfig, i as import_0 } from "../chunks/chunk-08368d39.js";
 import { jsx, jsxs } from "react/jsx-runtime";
 import { Box, Select, useToast, Text, Input, Button } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { w as webkitGradientBorderStyle, H as Header } from "../chunks/chunk-6a664786.js";
+import { w as webkitGradientBorderStyle, H as Header } from "../chunks/chunk-17fdba1f.js";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import "react-dom/server";
@@ -212,6 +212,11 @@ const import_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: Page
 }, Symbol.toStringTag, { value: "Module" }));
+const title = "Tinyexpense | Profile";
+const import_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  title
+}, Symbol.toStringTag, { value: "Module" }));
 const configValuesImported = [
   {
     configName: "onRenderHtml",
@@ -224,6 +229,12 @@ const configValuesImported = [
     importPath: "/pages/profile/+Page.tsx",
     isValueFile: true,
     exportValues: import_1
+  },
+  {
+    configName: "title",
+    importPath: "/pages/profile/+title.ts",
+    isValueFile: true,
+    exportValues: import_2
   }
 ];
 const configValuesSerialized = {

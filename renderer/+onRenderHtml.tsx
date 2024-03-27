@@ -1,6 +1,5 @@
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import ReactDOMServer from 'react-dom/server';
-import logoUrl from './logo.svg';
 import {ChakraProvider} from '@chakra-ui/react';
 const queryClient = new QueryClient();
 import {escapeInject, dangerouslySkipEscape} from 'vike/server';
@@ -13,6 +12,7 @@ import {PageShell} from './PageShell';
 import {getPageTitle} from './getPageTitle';
 import type {OnRenderHtmlAsync} from 'vike/types';
 import {CookiesProvider} from 'react-cookie';
+import favicon from '#root/public/app_icon_192.svg';
 
 const onRenderHtml: OnRenderHtmlAsync = async (
   pageContext,
@@ -41,9 +41,9 @@ const onRenderHtml: OnRenderHtmlAsync = async (
       <head>
         <base href=".">
         <meta charset="UTF-8" />
-        <link rel="icon" href="${logoUrl}" />
+        <link rel="icon" href="${favicon}" />
         <link rel="manifest" href="/manifest.webmanifest">
-        <script src="registerSW.js"></script>
+        <script src="./registerSW.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
         <title>${title}</title>

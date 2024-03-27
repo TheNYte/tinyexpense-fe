@@ -1,9 +1,9 @@
-import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-145576f8.js";
+import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-08368d39.js";
 import { jsxs, jsx } from "react/jsx-runtime";
 import { Box, IconButton, Select, Popover, PopoverTrigger, Button, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, Center, PopoverBody, SimpleGrid, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, Stack, Text, ModalFooter, useDisclosure, VStack, HStack, InputGroup, InputRightAddon, Divider, Accordion, Tag, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import React, { useCallback, useState, useMemo, useContext } from "react";
-import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-6a664786.js";
+import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-17fdba1f.js";
 import DatePicker from "react-datepicker";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -849,6 +849,11 @@ const import_1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: Page
 }, Symbol.toStringTag, { value: "Module" }));
+const title = "Tinyexpense | Home";
+const import_2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  title
+}, Symbol.toStringTag, { value: "Module" }));
 const configValuesImported = [
   {
     configName: "onRenderHtml",
@@ -861,6 +866,12 @@ const configValuesImported = [
     importPath: "/pages/home/+Page.tsx",
     isValueFile: true,
     exportValues: import_1
+  },
+  {
+    configName: "title",
+    importPath: "/pages/home/+title.ts",
+    isValueFile: true,
+    exportValues: import_2
   }
 ];
 const configValuesSerialized = {

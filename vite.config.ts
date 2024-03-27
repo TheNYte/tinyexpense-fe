@@ -46,13 +46,12 @@ const config: UserConfig = {
         start_url: '/?source=pwa',
         background_color: '#3367D6',
         display: 'standalone',
-        scope: '/',
         theme_color: '#3367D6',
       },
     }),
   ],
   server: {
-    https: true,
+    https: false,
     headers: {
       'Strict-Transport-Security': `max-age=${oneYearInSeconds}`,
     },
