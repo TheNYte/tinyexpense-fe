@@ -85,7 +85,7 @@ const ChakraDatePicker = ({ selectedDate, onChange }) => {
           children: /* @__PURE__ */ jsx(
             DatePicker,
             {
-              selected: selectedDate,
+              selected: new Date(selectedDate),
               onChange,
               popperPlacement: "left",
               showTimeSelect: true

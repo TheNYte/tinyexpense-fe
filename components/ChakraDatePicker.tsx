@@ -26,7 +26,7 @@ export const ChakraDatePicker: React.FC = ({selectedDate, onChange}) => {
         {...webkitGradientBorderStyle}
       >
         <DatePicker
-          selected={selectedDate}
+          selected={new Date(selectedDate)}
           onChange={onChange}
           popperPlacement="left"
           showTimeSelect

@@ -50,7 +50,7 @@ const config: UserConfig = {
     }),
   ],
   server: {
-    https: false,
+    https: true,
   },
 };
 
