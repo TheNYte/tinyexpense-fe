@@ -49,6 +49,9 @@ const config: UserConfig = {
       },
     }),
   ],
+  server: {
+    https: true, // Enable HTTPS in production mode
+  },
 };
 
 export default config;
