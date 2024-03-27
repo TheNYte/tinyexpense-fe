@@ -10,15 +10,18 @@
 }
 
 
-.react-datepicker {
-}
-
 .react-datepicker__day--selected {
     color: #FFFFFF;
     background: linear-gradient(to right, #ff5757, #8c52ff);
 }
 
 .react-datepicker-wrapper {
-    visibility: hidden;
-    max-width: 0px;
+    max-width: 80px;
+}
+
+.react-datepicker-ignore-onclickoutside {
+    max-width: 80px;
+}
+.react-datepicker__input-container input {
+    max-width: 80px;
 }

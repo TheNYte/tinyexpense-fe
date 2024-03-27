@@ -6,4 +6,5 @@ export const ApiConfig = {
   status: `${URL}/health/status`,
   categories: `${URL}/categories`,
   expenses: `${URL}/expenses`,
+  changePassword: `${URL}/account/change-password`,
 };

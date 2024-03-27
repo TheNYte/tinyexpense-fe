@@ -68,39 +68,62 @@ export default function Page() {
           {() => (
             <Form>
               <Field name="email" validate={validateEmail}>
-                {({field, form}) => (
+                {({field, form, meta}) => (
                   <FormControl
                     isInvalid={form.errors.email && form.touched.email}
                   >
                     <FormLabel>Email Address</FormLabel>
-                    <Input {...field} placeholder="john.doe@example.com" />
+                    <Input
+                      {...field}
+                      placeholder="john.doe@example.com"
+                      mb={meta.error ? 0 : 6}
+                    />
                     <FormErrorMessage>{form.errors.email}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
               <Field name="name" validate={validateName}>
-                {({field, form}) => (
+                {({field, form, meta}) => (
                   <FormControl
                     isInvalid={form.errors.name && form.touched.name}
                   >
                     <FormLabel>Username</FormLabel>
-                    <Input {...field} placeholder="TvojTatkoRecords" />
+                    <Input
+                      {...field}
+                      placeholder="TvojTatkoRecords"
+                      mb={meta.error ? 0 : 6}
+                    />
                     <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
               <Field name="password" validate={validatePassword}>
-                {({field, form}) => (
+                {({field, form, meta}) => (
                   <FormControl
                     isInvalid={form.errors.password && form.touched.password}
                   >
                     <FormLabel>Password</FormLabel>
-                    <Input type="password" {...field} placeholder="********" />
+                    <Input
+                      type="password"
+                      {...field}
+                      placeholder="********"
+                      mb={meta.error ? 0 : 6}
+                    />
                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                   </FormControl>
                 )}
               </Field>
-              <Button mt={4} colorScheme="teal" type="submit" width="full">
+              <Button
+                mt={4}
+                background={'linear-gradient(to right, #ff5757, #8c52ff)'}
+                color="white"
+                _hover={{
+                  background: 'linear-gradient(to right, #8c52ff, #ff5757)',
+                  color: 'white',
+                }}
+                type="submit"
+                width="full"
+              >
                 Register
               </Button>
             </Form>
@@ -108,7 +131,13 @@ export default function Page() {
         </Formik>
         <Box mt={2} textAlign="center">
           <VikeLink href="/">
-            <Text color="teal.500">Already registered? Log in here.</Text>
+            <Text
+              backgroundImage="linear-gradient(to right, #ff5757, #8c52ff)"
+              color="transparent"
+              style={{WebkitBackgroundClip: 'text'}}
+            >
+              Already registered? Log in here.
+            </Text>
           </VikeLink>
         </Box>
       </Box>

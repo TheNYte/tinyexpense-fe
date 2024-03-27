@@ -21,6 +21,7 @@ export const CategoryMenu: React.FC = ({
 }) => {
   return (
     <Box
+      flex={4}
       p={'2px'}
       borderRadius={'7px'}
       bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
