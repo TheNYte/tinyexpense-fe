@@ -184,7 +184,7 @@ const onRenderHtml = async (pageContext) => {
   const title = getPageTitle(pageContext);
   const { documentProps } = pageContext.exports;
   const desc = documentProps && documentProps.description || "App using Vite + Vike";
-  const documentHtml = escapeInject(_a || (_a = __template(['<!DOCTYPE html>\n    <html lang="en">\n      <head>\n        <base href=".">\n        <meta charset="UTF-8" />\n        <link rel="icon" href="', '" />\n        <link rel="manifest" href="/manifest.webmanifest">\n        <script src="./registerSW.js"><\/script>\n        <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n        <meta name="description" content="', '" />\n        <title>', `</title>
+  const documentHtml = escapeInject(_a || (_a = __template(['<!DOCTYPE html>\n    <html lang="en">\n      <head>\n        <base href=".">\n        <meta charset="UTF-8" />\n        <link rel="icon" href="', '" />\n        <link rel="manifest" href="/manifest.webmanifest">\n        <script src="./registerSW.js"><\/script>\n        <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />\n        <meta name="description" content="', '" />\n        <title>', `</title>
       </head>
       <body>
         <div id="react-root" style='height:100vh'>`, "</div>\n      </body>\n    </html>"])), favicon, desc, title, dangerouslySkipEscape(

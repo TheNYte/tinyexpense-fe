@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { Box, Text, Divider, Avatar, Button } from "@chakra-ui/react";
 import { LiaUser } from "react-icons/lia";
-import { u as useAuth, r as redirect } from "./chunk-08368d39.js";
+import { u as useAuth, r as redirect } from "./chunk-210e1f28.js";
 const webkitGradientBorderStyle = {
   bg: "#FFFFFFB2",
   border: "2px solid transparent",

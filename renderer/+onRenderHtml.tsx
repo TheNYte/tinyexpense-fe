@@ -45,6 +45,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (
         <link rel="manifest" href="/manifest.webmanifest">
         <script src="./registerSW.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         <meta name="description" content="${desc}" />
         <title>${title}</title>
       </head>

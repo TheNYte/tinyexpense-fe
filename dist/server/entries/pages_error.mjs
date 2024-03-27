@@ -1,4 +1,4 @@
-import { i as import_0 } from "../chunks/chunk-08368d39.js";
+import { i as import_0 } from "../chunks/chunk-210e1f28.js";
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import "@tanstack/react-query";
 import "react-dom/server";
