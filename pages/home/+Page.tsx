@@ -152,6 +152,8 @@ export default function Page(): React.FC {
       flexDir={'column'}
       alignItems={'space-between'}
       gap={4}
+      p={2}
+      maxHeight="calc(100vh - 35px)"
     >
       <Header />
       <Box
@@ -162,177 +164,190 @@ export default function Page(): React.FC {
         bg="#FFFFFFB2"
         rounded="lg"
         shadow="md"
-        overflow="hidden"
         display={'flex'}
         flexDir={'column'}
-        gap={4}
-        maxHeight="calc(100vh - 150px)" // Adjust the max height as needed
+        overflow={'hidden'}
       >
-        <CustomModal isOpen={isOpen} onClose={onClose} />
-        <VStack spacing={4} align="flex-start" w="100%">
-          <HStack
-            spacing={4}
-            w="100%"
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-          >
-            <CategoryMenu
-              currentValue={categoryId}
-              onChange={(e) => setCategoryId(e)}
-              onNewCategoryClick={handleAddNewCategory}
-              categories={categoriesData}
-            />
-            <ChakraDatePicker
-              selectedDate={selectedDate}
-              onChange={handleDateChange}
-            />
-          </HStack>
-          <HStack
-            display={'flex'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            w={'100%'}
-          >
-            <Box
-              p={'2px'}
-              borderRadius={'7px'}
-              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+        <Box
+          display={'flex'}
+          flexDir={'column'}
+          alignItems={'space-between'}
+          gap={4}
+          overflow={'hidden'}
+          overflowY={'auto'}
+        >
+          <CustomModal isOpen={isOpen} onClose={onClose} />
+          <VStack spacing={4} align="flex-start" w="100%">
+            <HStack
+              spacing={4}
+              w="100%"
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              pr={4}
             >
-              <InputGroup>
-                <Input
-                  {...webkitGradientBorderStyle}
-                  type="number"
-                  placeholder="Amount"
-                  value={amount}
-                  maxW={'70px'}
-                  px={'2px'}
-                  onChange={(e) => setAmount(Number(e.target.value))}
-                />
-                <InputRightAddon
-                  {...webkitGradientBorderStyle}
-                  px={'2px'}
-                  paddingLeft={0}
-                >
-                  {context?.user.userProfile.currency}
-                </InputRightAddon>
-              </InputGroup>
-            </Box>
-            <Box
-              p={'2px'}
-              borderRadius={'7px'}
-              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
-              w={{base: '75%', md: '50%'}}
-            >
-              <Input
-                borderRadius={'5px'}
-                {...webkitGradientBorderStyle}
-                color={'black'}
-                _placeholder={{color: 'black'}}
-                placeholder="Item description"
-                value={expenseDescription}
-                onChange={(e) => setExpenseDescription(e.target.value)}
+              <CategoryMenu
+                currentValue={categoryId}
+                onChange={(e) => setCategoryId(e)}
+                onNewCategoryClick={handleAddNewCategory}
+                categories={categoriesData}
               />
-            </Box>
-            <Box
-              p={'2px'}
-              borderRadius={'7px'}
-              bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+              <ChakraDatePicker
+                selectedDate={selectedDate}
+                onChange={handleDateChange}
+              />
+            </HStack>
+            <HStack
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              w={'100%'}
+              pr={4}
             >
-              <IconButton
-                bgColor={'#FFFFFFB2'}
-                aria-label="Add Item"
-                onClick={handleAddItem}
+              <Box
+                p={'2px'}
+                borderRadius={'7px'}
+                bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
               >
-                <AddIcon />
-              </IconButton>
-            </Box>
-          </HStack>
-        </VStack>
-        <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
-          <Divider h="1px" />
-        </Box>
-        {sortedData?.length === 0 ? (
-          <Text m={0} fontSize="md">
-            No items recorded.
-          </Text>
-        ) : (
-          <Accordion
-            overflowY={'auto'}
-            w={'100%'}
-            allowToggle
-            border={'none'}
-            display={'flex'}
-            flexDir={'column'}
-            gap={2}
-            paddingRight={4}
-          >
-            {expensesData?.map((item) => {
-              const date = new Date(item.dateTime);
-              const categorizedDate = getCategorizedDate(item.dateTime);
-              const formattedDate = date.toLocaleDateString();
-              const formattedTime = date.toLocaleTimeString();
-
-              return (
-                <Box
-                  key={item.id}
-                  p={'2px'}
-                  borderRadius={'7px'}
-                  bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
-                  display={'flex'}
-                >
-                  {/*<Text fontSize={'sm'}>{categorizedDate}</Text>*/}
-                  <Box
-                    borderLeftRadius={'5px'}
-                    flex={1}
-                    bgColor={CategoryColors[item.color]}
-                  />
-                  <AccordionItem
-                    flex={10}
-                    borderRightRadius={'5px'}
+                <InputGroup>
+                  <Input
                     {...webkitGradientBorderStyle}
+                    type="number"
+                    placeholder="Amount"
+                    value={amount}
+                    maxW={'70px'}
+                    px={'2px'}
+                    onChange={(e) => setAmount(Number(e.target.value))}
+                  />
+                  <InputRightAddon
+                    {...webkitGradientBorderStyle}
+                    px={'2px'}
+                    paddingLeft={0}
                   >
-                    <AccordionButton
-                      paddingRight={2}
-                      display={'flex'}
-                      flex={'1'}
+                    {context?.user.userProfile.currency}
+                  </InputRightAddon>
+                </InputGroup>
+              </Box>
+              <Box
+                p={'2px'}
+                borderRadius={'7px'}
+                bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+                w={{base: '75%', md: '50%'}}
+              >
+                <Input
+                  borderRadius={'5px'}
+                  {...webkitGradientBorderStyle}
+                  color={'black'}
+                  _placeholder={{color: 'black'}}
+                  placeholder="Item description"
+                  value={expenseDescription}
+                  onChange={(e) => setExpenseDescription(e.target.value)}
+                />
+              </Box>
+              <Box
+                p={'2px'}
+                borderRadius={'7px'}
+                bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+              >
+                <IconButton
+                  bgColor={'#FFFFFFB2'}
+                  aria-label="Add Item"
+                  onClick={handleAddItem}
+                >
+                  <AddIcon />
+                </IconButton>
+              </Box>
+            </HStack>
+          </VStack>
+          <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
+            <Divider h="1px" />
+          </Box>
+          {sortedData?.length === 0 ? (
+            <Text m={0} fontSize="md">
+              No items recorded.
+            </Text>
+          ) : (
+            <Accordion
+              w={'100%'}
+              allowToggle
+              border={'none'}
+              display={'flex'}
+              flexDir={'column'}
+              gap={2}
+              paddingRight={4}
+            >
+              {expensesData?.map((item) => {
+                const date = new Date(item.dateTime);
+                const categorizedDate = getCategorizedDate(item.dateTime);
+                const formattedDate = date.toLocaleDateString();
+                const formattedTime = date.toLocaleTimeString();
+
+                return (
+                  <Box
+                    key={item.id}
+                    p={'2px'}
+                    borderRadius={'7px'}
+                    bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+                    display={'flex'}
+                  >
+                    {/*<Text fontSize={'sm'}>{categorizedDate}</Text>*/}
+                    <Box
+                      borderLeftRadius={'5px'}
+                      flex={1}
+                      bgColor={CategoryColors[item.color]}
+                    />
+                    <AccordionItem
+                      flex={10}
+                      borderRightRadius={'5px'}
+                      {...webkitGradientBorderStyle}
                     >
-                      <Box
-                        flex={'5'}
+                      <AccordionButton
+                        paddingRight={2}
                         display={'flex'}
-                        flexDir={'row'}
-                        justifyContent={'space-between'}
-                      >
-                        <Box>{item.categoryName}</Box>
-                        <Box>{`${item.amount} ${context?.user?.userProfile.currency}`}</Box>
-                      </Box>
-                      <Box
                         flex={'1'}
-                        display={'flex'}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        gap={4}
-                        textAlign={'end'}
                       >
-                        <AccordionIcon />
-                        <CloseIcon
+                        <Box
+                          flex={'5'}
+                          display={'flex'}
+                          flexDir={'row'}
+                          justifyContent={'space-between'}
+                        >
+                          <Box>{item.categoryName}</Box>
+                          <Box>{`${item.amount} ${context?.user?.userProfile.currency}`}</Box>
+                        </Box>
+                        <Box
+                          flex={'1'}
+                          display={'flex'}
+                          justifyContent={'center'}
+                          alignItems={'center'}
+                          gap={4}
+                          textAlign={'end'}
+                        >
+                          <AccordionIcon />
+                          <CloseIcon
+                            fontSize={'xs'}
+                            onClick={(e) => handleRemoveItem(item.id, e)}
+                          />
+                        </Box>
+                      </AccordionButton>
+                      <AccordionPanel
+                        whiteSpace="wrap"
+                        p={2}
+                        gap={'1px'}
+                        pl={4}
+                      >
+                        <Text
                           fontSize={'xs'}
-                          onClick={(e) => handleRemoveItem(item.id, e)}
-                        />
-                      </Box>
-                    </AccordionButton>
-                    <AccordionPanel whiteSpace="wrap" p={2} gap={'1px'} pl={4}>
-                      <Text
-                        fontSize={'xs'}
-                      >{`${formattedDate} - ${formattedTime}`}</Text>
-                      <Text>{item.expenseDescription}</Text>
-                    </AccordionPanel>
-                  </AccordionItem>
-                </Box>
-              );
-            })}
-          </Accordion>
-        )}
+                        >{`${formattedDate} - ${formattedTime}`}</Text>
+                        <Text>{item.expenseDescription}</Text>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Box>
+                );
+              })}
+            </Accordion>
+          )}
+        </Box>
       </Box>
     </Box>
   );
