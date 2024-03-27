@@ -28,8 +28,8 @@ export const ChakraDatePicker: React.FC = ({selectedDate, onChange}) => {
         <DatePicker
           selected={selectedDate}
           onChange={onChange}
-          dateFormat="dd.MM.yyyy"
           popperPlacement="left"
+          showTimeSelect
         />
       </Box>
     </Box>

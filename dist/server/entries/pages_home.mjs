@@ -87,8 +87,8 @@ const ChakraDatePicker = ({ selectedDate, onChange }) => {
             {
               selected: selectedDate,
               onChange,
-              dateFormat: "dd.MM.yyyy",
-              popperPlacement: "left"
+              popperPlacement: "left",
+              showTimeSelect: true
             }
           )
         }

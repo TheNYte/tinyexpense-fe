@@ -49,6 +49,9 @@ const config: UserConfig = {
       },
     }),
   ],
+  server: {
+    https: false,
+  },
 };
 
 export default config;
