@@ -12,14 +12,14 @@ import {
   AccordionIcon,
   AccordionPanel,
   useDisclosure,
-  Collapse,
   InputGroup,
   InputRightAddon,
+  Tag,
 } from '@chakra-ui/react';
 
 import {CloseIcon} from '@chakra-ui/icons';
 
-import React, {useContext, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import {AddIcon} from '@chakra-ui/icons';
 import {CategoryMenu} from '#root/components/CategoryMenu';
 import {AuthContext} from '#root/contexts/AuthContext';
@@ -34,8 +34,11 @@ import {useAxiosQuery} from '#root/hooks/useAxiosQuery';
 import {ApiConfig} from '#root/common/api_config';
 import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
-import {Expenses} from '#root/pages/home/home_types';
-import {getCategorizedDate} from '#root/pages/home/home_helpers';
+import {CategoriesData, Expenses} from '#root/pages/home/home_types';
+import {getDateRange} from '#root/pages/home/home_helpers';
+import {groupBy, isEmpty} from 'lodash';
+import {FilterCategoryMenu} from '#root/components/FilterCategoryMenu';
+import {FilterByDateTime} from '#root/components/FilterByDateTime';
 
 export default function Page(): React.FC {
   const currentDate = new Date();
@@ -43,7 +46,27 @@ export default function Page(): React.FC {
   const [categoryId, setCategoryId] = useState<string | number>('');
   const [expenseDescription, setExpenseDescription] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
-  const [selectedDate, setSelectedDate] = useState<string | Date>(currentDate);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    currentDate.toString(),
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState<number | string>('');
+  const [selectedDateRange, setSelectedDateRange] = useState<string>('');
+
+  // Function to handle category selection
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  // Function to handle date range selection
+  const handleDateRangeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedDateRange(event.target.value);
+  };
+
   const context = useContext(AuthContext);
 
   const handleDateChange = (date: string) => {
@@ -54,7 +77,7 @@ export default function Page(): React.FC {
   const {data: expensesData, refetch} = useAxiosQuery<Expenses[]>(
     ApiConfig.expenses,
   );
-  const {data: categoriesData, isLoading} = useAxiosQuery<any[]>(
+  const {data: categoriesData} = useAxiosQuery<CategoriesData[]>(
     ApiConfig.categories,
   );
 
@@ -65,36 +88,33 @@ export default function Page(): React.FC {
 
     // Compare dateA and dateB
     if (dateA < dateB) {
-      return -1; // dateA comes before dateB
+      return 1; // dateB comes before dateA
     } else if (dateA > dateB) {
-      return 1; // dateA comes after dateB
+      return -1; // dateA comes after dateB
     } else {
-      return 0; // dates are equal
+      return;
     }
   });
 
-  // TODO: pridať datePicker, input pre dlhsi text?, item name -> description
-  // V liste zobrazovať categoryId a price z €
-  // Pri mazaní veci z listu vyskočí potvrdenie are you fucking sure.
-  // a po kliknuti na item rozbaliť -> zobrazit description a timestamp
-  // Nejak zakomponovať farbu. Color picker pre kategorie.
-  // KAategorie je treba vedieť vyrobiť. Novy screen?
-  // Profile screen, zmena hesla, currency.
-  // Pridať groupy podľa dní (filter? a sortit dáta podľa najnovšieho dna). Dni, Mesiace , Roky
+  const filteredData = useMemo(
+    () =>
+      sortedData?.filter((item) => {
+        // Check if selectedCategory matches or if no category is selected
+        const categoryMatch =
+          selectedCategory === '' || item.categoryName === selectedCategory;
+        // Check if selectedDateRange matches or if no date range is selected
+        const dateRangeMatch =
+          selectedDateRange === '' ||
+          getDateRange(item.dateTime) === selectedDateRange;
 
-  {
-    /*
-    "expenseCategoryId": 53,
-    "expenseDescription": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-    "amount": 53.01,
-    "currency": "EUR",
-    "timestamp": "2023-04-17",
-    "color": "BLACK"
-  */
-  }
+        // Return true only if both categoryMatch and dateRangeMatch are true
+        return categoryMatch && dateRangeMatch;
+      }),
+    [selectedCategory, selectedDateRange, sortedData],
+  );
 
   const mutateAddExpense = useMutation({
-    mutationFn: (expenseData: any) => {
+    mutationFn: (expenseData: Expenses) => {
       return axios.post(ApiConfig.expenses, JSON.stringify(expenseData));
     },
     onSuccess: async () => {
@@ -103,17 +123,20 @@ export default function Page(): React.FC {
   });
 
   const handleAddItem = () => {
+    let categoryItem: CategoriesData | undefined;
     if (categoryId !== '' && amount > 0) {
-      const categoryItem = categoriesData?.find(
-        (categoryItem) => categoryItem.id === parseInt(categoryId, 10),
-      );
+      if (typeof categoryId === 'string' && categoriesData) {
+        categoryItem = categoriesData.find(
+          (categoryItem) => categoryItem.id === parseInt(categoryId, 10),
+        );
+      }
       const expenseData = {
         categoryId: categoryId,
         expenseDescription: expenseDescription,
         amount: amount,
         currency: 'EUR',
         dateTime: selectedDate,
-        color: categoryItem.color,
+        color: categoryItem?.color,
       };
       mutateAddExpense.mutate(expenseData);
       setCategoryId('');
@@ -141,10 +164,14 @@ export default function Page(): React.FC {
     onOpen();
   };
 
-  const {isOpen: isAddExpenseOpen, onToggle: onAddExpenseOpen} =
-    useDisclosure();
+  const groupedSortedData = groupBy(filteredData, 'dateTime');
+  const displayedDateRanges = new Set<string>();
 
-  return context?.user === null ? null : (
+  console.log('context?.user', context?.user);
+
+  return context?.user === null ? (
+    <Box />
+  ) : (
     <Box
       w={'100%'}
       h={'100%'}
@@ -161,7 +188,7 @@ export default function Page(): React.FC {
         mx="auto"
         minW={{base: '350px', sm: '500px'}}
         maxW={{base: '350px', sm: '500px'}}
-        bg="#FFFFFFB2"
+        bg="#FFFFFF"
         rounded="lg"
         shadow="md"
         display={'flex'}
@@ -258,11 +285,39 @@ export default function Page(): React.FC {
                 </IconButton>
               </Box>
             </HStack>
+            <Box w={'100%'} h={'100%'} pr={4}>
+              <Box
+                bgGradient="linear(to-r, #ff5757, #8c52ff)"
+                h="2px"
+                w={'100%'}
+              >
+                <Divider h="1px" />
+              </Box>
+            </Box>
+            <HStack
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              w={'100%'}
+              pr={4}
+            >
+              <FilterCategoryMenu
+                currentValue={selectedCategory}
+                onChange={handleCategoryChange}
+                categories={categoriesData}
+              />
+              <FilterByDateTime
+                currentValue={selectedDateRange}
+                onChange={handleDateRangeChange}
+              />
+            </HStack>
           </VStack>
-          <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
-            <Divider h="1px" />
+          <Box w={'100%'} h={'100%'} pr={4}>
+            <Box bgGradient="linear(to-r, #ff5757, #8c52ff)" h="2px" w={'100%'}>
+              <Divider h="1px" />
+            </Box>
           </Box>
-          {sortedData?.length === 0 ? (
+          {isEmpty(groupedSortedData) ? (
             <Text m={0} fontSize="md">
               No items recorded.
             </Text>
@@ -276,73 +331,105 @@ export default function Page(): React.FC {
               gap={2}
               paddingRight={4}
             >
-              {expensesData?.map((item) => {
-                const date = new Date(item.dateTime);
-                const categorizedDate = getCategorizedDate(item.dateTime);
-                const formattedDate = date.toLocaleDateString();
-                const formattedTime = date.toLocaleTimeString();
+              {Object.keys(groupedSortedData).map((timestamp) => {
+                const categorizedDate = getDateRange(timestamp);
+                const expenses = groupedSortedData[timestamp];
+
+                if (displayedDateRanges.has(categorizedDate)) {
+                  return null;
+                }
+                displayedDateRanges.add(categorizedDate);
 
                 return (
-                  <Box
-                    key={item.id}
-                    p={'2px'}
-                    borderRadius={'7px'}
-                    bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
-                    display={'flex'}
-                  >
-                    {/*<Text fontSize={'sm'}>{categorizedDate}</Text>*/}
-                    <Box
-                      borderLeftRadius={'5px'}
-                      flex={1}
-                      bgColor={CategoryColors[item.color]}
-                    />
-                    <AccordionItem
-                      flex={10}
-                      borderRightRadius={'5px'}
-                      {...webkitGradientBorderStyle}
-                    >
-                      <AccordionButton
-                        paddingRight={2}
+                  <React.Fragment key={timestamp}>
+                    <Box display={'flex'}>
+                      <Box
+                        bgGradient={'linear(to right, #ff5757, #8c52ff)'}
+                        p={'2px'}
                         display={'flex'}
-                        flex={'1'}
+                        borderRadius={'7px'}
                       >
-                        <Box
-                          flex={'5'}
-                          display={'flex'}
-                          flexDir={'row'}
-                          justifyContent={'space-between'}
+                        <Tag
+                          borderRadius={'5px'}
+                          bgGradient={'linear(to right, #ff5757B2, #8c52ffB2)'}
+                          size={'sm'}
                         >
-                          <Box>{item.categoryName}</Box>
-                          <Box>{`${item.amount} ${context?.user?.userProfile.currency}`}</Box>
-                        </Box>
+                          <Text fontSize={'md'} fontWeight={'bold'}>
+                            {categorizedDate}
+                          </Text>
+                        </Tag>
+                      </Box>
+                    </Box>
+                    {expenses.map((item) => {
+                      const date = new Date(item.dateTime);
+                      const formattedDate = date.toLocaleDateString();
+                      const formattedTime = date.toLocaleTimeString();
+
+                      return (
                         <Box
-                          flex={'1'}
+                          key={item.id}
+                          p={'2px'}
+                          borderRadius={'7px'}
+                          bgGradient={
+                            'linear-gradient(to right, #ff5757, #8c52ff)'
+                          }
                           display={'flex'}
-                          justifyContent={'center'}
-                          alignItems={'center'}
-                          gap={4}
-                          textAlign={'end'}
                         >
-                          <AccordionIcon />
-                          <CloseIcon
-                            fontSize={'xs'}
-                            onClick={(e) => handleRemoveItem(item.id, e)}
+                          <Box
+                            borderLeftRadius={'5px'}
+                            flex={1}
+                            bgColor={CategoryColors[item.color]}
                           />
+                          <AccordionItem
+                            flex={10}
+                            borderRightRadius={'5px'}
+                            {...webkitGradientBorderStyle}
+                          >
+                            <AccordionButton
+                              paddingRight={2}
+                              display={'flex'}
+                              flex={'1'}
+                            >
+                              <Box
+                                flex={'5'}
+                                display={'flex'}
+                                flexDir={'row'}
+                                justifyContent={'space-between'}
+                              >
+                                <Box>{item.categoryName}</Box>
+                                <Box>{`${item.amount} ${context?.user?.userProfile.currency}`}</Box>
+                              </Box>
+                              <Box
+                                flex={'1'}
+                                display={'flex'}
+                                justifyContent={'center'}
+                                alignItems={'center'}
+                                gap={4}
+                                textAlign={'end'}
+                              >
+                                <AccordionIcon />
+                                <CloseIcon
+                                  fontSize={'xs'}
+                                  onClick={(e) => handleRemoveItem(item.id, e)}
+                                />
+                              </Box>
+                            </AccordionButton>
+                            <AccordionPanel
+                              whiteSpace="wrap"
+                              p={2}
+                              gap={'1px'}
+                              pl={4}
+                            >
+                              <Text
+                                fontSize={'xs'}
+                              >{`${formattedDate} - ${formattedTime}`}</Text>
+                              <Text>{item.expenseDescription}</Text>
+                            </AccordionPanel>
+                          </AccordionItem>
                         </Box>
-                      </AccordionButton>
-                      <AccordionPanel
-                        whiteSpace="wrap"
-                        p={2}
-                        gap={'1px'}
-                        pl={4}
-                      >
-                        <Text
-                          fontSize={'xs'}
-                        >{`${formattedDate} - ${formattedTime}`}</Text>
-                        <Text>{item.expenseDescription}</Text>
-                      </AccordionPanel>
-                    </AccordionItem>
-                  </Box>
+                      );
+                    })}
+                  </React.Fragment>
                 );
               })}
             </Accordion>

@@ -28,7 +28,7 @@ export default function Page(): React.FC {
         mx="auto"
         minW={{base: '350px', sm: '500px'}}
         maxW={{base: '350px', sm: '500px'}}
-        bg="#FFFFFFB2"
+        bg="#FFFFFF"
         rounded="lg"
         shadow="md"
         overflow="hidden"

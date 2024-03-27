@@ -1,6 +1,8 @@
-import {Box, Button, Divider, Text} from '@chakra-ui/react';
+import {Avatar, Box, Button, Divider, Text} from '@chakra-ui/react';
+import {LiaUser} from 'react-icons/lia';
 import React from 'react';
 import {redirect, useAuth} from '#root/contexts/AuthContext';
+import {webkitGradientTextStyle} from '#root/common/common_constants';
 
 export const Header: React.FC = () => {
   const {user, logout} = useAuth();
@@ -15,7 +17,7 @@ export const Header: React.FC = () => {
 
   return (
     <Box
-      bgColor={'#FFFFFFB2'}
+      bgColor={'#ffffff'}
       borderRadius={6}
       display={'flex'}
       flexDir={'column'}
@@ -26,6 +28,7 @@ export const Header: React.FC = () => {
       gap={2}
     >
       <Text
+        {...webkitGradientTextStyle}
         onClick={handleOnLogoClick}
         fontSize={'md'}
         fontWeight={'bold'}
@@ -44,9 +47,27 @@ export const Header: React.FC = () => {
         alignItems={'center'}
         onClick={handleOnProfileClick}
       >
-        <Text size={'md'} textTransform={'capitalize'}>
-          {user?.userProfile?.name || 'Test user'}
-        </Text>
+        <Box
+          display={'flex'}
+          flexDir={'row'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          gap={2}
+        >
+          <Avatar
+            size={'sm'}
+            bgGradient={'linear-gradient(to right, #ff5757, #8c52ff)'}
+            icon={<LiaUser fontSize="1.5rem" />}
+          />
+          <Text
+            fontSize={'lg'}
+            fontWeight={'bold'}
+            {...webkitGradientTextStyle}
+            textTransform={'capitalize'}
+          >
+            {user?.userProfile?.name || 'Test user'}
+          </Text>
+        </Box>
         <Box
           p={'2px'}
           borderRadius={'7px'}

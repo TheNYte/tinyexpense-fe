@@ -7,9 +7,10 @@ export const webkitGradientBorderStyle = {
 };
 
 export const webkitGradientTextStyle = {
-  backgroundImage: 'linear-gradient(to right, #ff5757, #8c52ff)',
-  color: 'transparent',
-  style: {WebkitBackgroundClip: 'text'},
+  bgGradient: 'linear(to right, #ff5757, #8c52ff)',
+  bgClip: 'text',
+  cursor: 'pointer',
+  userSelect: 'none',
 };
 
 export const webkitGradientButtonStyle = {
@@ -73,3 +74,18 @@ export enum Currency {
   HUF = 'HUF',
   CZK = 'CZK',
 }
+
+type CategoryColorsMap = {
+  [key in keyof typeof CategoryColors]: string;
+};
+
+export const categoryColorsMap: CategoryColorsMap = {
+  RED: CategoryColors.RED,
+  ORANGE: CategoryColors.ORANGE,
+  YELLOW: CategoryColors.YELLOW,
+  GREEN: CategoryColors.GREEN,
+  BLUE: CategoryColors.BLUE,
+  PURPLE: CategoryColors.PURPLE,
+  WHITE: CategoryColors.WHITE,
+  BLACK: CategoryColors.BLACK,
+};
