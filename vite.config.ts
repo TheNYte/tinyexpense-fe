@@ -3,6 +3,8 @@ import vike from 'vike/plugin';
 import {UserConfig} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 
+const oneYearInSeconds = 60 * 60 * 24 * 365;
+
 const config: UserConfig = {
   resolve: {
     alias: {
@@ -51,6 +53,9 @@ const config: UserConfig = {
   ],
   server: {
     https: true,
+    headers: {
+      'Strict-Transport-Security': `max-age=${oneYearInSeconds}`,
+    },
   },
 };
 
