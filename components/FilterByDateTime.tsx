@@ -11,7 +11,6 @@ export const FilterByDateTime: React.FC<FilterByDateTimeProps> = ({
   onChange,
   currentValue,
 }) => {
-  console.log('currentValue', currentValue);
   return (
     <Box
       flex={1}

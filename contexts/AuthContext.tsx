@@ -78,12 +78,10 @@ export const AuthProvider: React.FC<Props> = (props) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-      console.log('login data', data);
       setUser(data);
       // Set the 'userData' cookie after successful login
       setCookie('userData', JSON.stringify(data), {
         path: '/',
-        secure: true,
       });
       await redirect('/home');
       toast({

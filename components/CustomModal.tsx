@@ -57,7 +57,6 @@ export const CustomModal = (props) => {
   );
 
   const handleAddCategory = () => {
-    console.log('mutate', mutationData);
     mutateAddCategory.mutate(mutationData);
   };
 

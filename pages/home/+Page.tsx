@@ -167,8 +167,6 @@ export default function Page(): React.FC {
   const groupedSortedData = _.groupBy(filteredData, 'dateTime');
   const displayedDateRanges = new Set<string>();
 
-  console.log('context?.user', context?.user);
-
   return context?.user === null ? (
     <Box />
   ) : (

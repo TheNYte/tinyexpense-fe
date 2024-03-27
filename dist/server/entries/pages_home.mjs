@@ -1,9 +1,9 @@
-import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-609b579e.js";
+import { A as ApiConfig, a as AuthContext, i as import_0 } from "../chunks/chunk-145576f8.js";
 import { jsxs, jsx } from "react/jsx-runtime";
 import { Box, IconButton, Select, Popover, PopoverTrigger, Button, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, Center, PopoverBody, SimpleGrid, Input, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, Stack, Text, ModalFooter, useDisclosure, VStack, HStack, InputGroup, InputRightAddon, Divider, Accordion, Tag, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import React, { useCallback, useState, useMemo, useContext } from "react";
-import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-8c7b1aba.js";
+import { w as webkitGradientBorderStyle, C as CategoryColors, H as Header } from "../chunks/chunk-6a664786.js";
 import DatePicker from "react-datepicker";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -192,7 +192,6 @@ const CustomModal = (props) => {
     [newCategoryName, newColor]
   );
   const handleAddCategory = () => {
-    console.log("mutate", mutationData);
     mutateAddCategory.mutate(mutationData);
   };
   const handleOnColorInputChange = (e) => {
@@ -340,7 +339,6 @@ const FilterByDateTime = ({
   onChange,
   currentValue
 }) => {
-  console.log("currentValue", currentValue);
   return /* @__PURE__ */ jsx(
     Box,
     {
@@ -466,7 +464,6 @@ function Page() {
   };
   const groupedSortedData = _.groupBy(filteredData, "dateTime");
   const displayedDateRanges = /* @__PURE__ */ new Set();
-  console.log("context?.user", context == null ? void 0 : context.user);
   return (context == null ? void 0 : context.user) === null ? /* @__PURE__ */ jsx(Box, {}) : /* @__PURE__ */ jsxs(
     Box,
     {

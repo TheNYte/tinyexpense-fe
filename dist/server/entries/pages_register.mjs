@@ -1,9 +1,9 @@
-import { A as ApiConfig, r as redirect, i as import_0 } from "../chunks/chunk-609b579e.js";
+import { A as ApiConfig, r as redirect, i as import_0 } from "../chunks/chunk-145576f8.js";
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { Box, Flex, Image, FormControl, FormLabel, Input, FormErrorMessage, Button, Text } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { Formik, Form, Field } from "formik";
-import { v as validateEmail, b as validateName, a as validatePassword, V as VikeLink } from "../chunks/chunk-b04a49c4.js";
+import { v as validateEmail, b as validateName, a as validatePassword, V as VikeLink } from "../chunks/chunk-860eeaa5.js";
 import "react-dom/server";
 import "vike/server";
 import "react";

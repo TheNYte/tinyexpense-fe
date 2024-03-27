@@ -3,42 +3,42 @@
     "file": "assets/static/home.2dc42a8c.css",
     "src": "\u0000virtual:vike:pageConfigValuesAll:client:/pages/home.css"
   },
-  "_chunk-0ab2c14c.js": {
-    "file": "assets/chunks/chunk-0ab2c14c.js",
+  "_chunk-31284e69.js": {
+    "file": "assets/chunks/chunk-31284e69.js",
     "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-e63b034d.js"
+      "_chunk-4b375b17.js"
     ]
   },
-  "_chunk-2c844e21.js": {
-    "file": "assets/chunks/chunk-2c844e21.js",
-    "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-e63b034d.js"
-    ]
-  },
-  "_chunk-84450b6d.js": {
+  "_chunk-4b375b17.js": {
     "css": [
       "assets/static/onRenderClient.ff5f94e3.css"
     ],
-    "file": "assets/chunks/chunk-84450b6d.js",
+    "file": "assets/chunks/chunk-4b375b17.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ]
   },
-  "_chunk-9da33992.js": {
-    "file": "assets/chunks/chunk-9da33992.js",
+  "_chunk-9c84d6e4.js": {
+    "file": "assets/chunks/chunk-9c84d6e4.js",
     "imports": [
-      "_chunk-84450b6d.js"
+      "_chunk-4b375b17.js"
+    ]
+  },
+  "_chunk-adc80fa5.js": {
+    "file": "assets/chunks/chunk-adc80fa5.js",
+    "imports": [
+      "_chunk-4b375b17.js",
+      "_chunk-9c84d6e4.js"
     ]
   },
   "_chunk-d6cd9d78.js": {
     "file": "assets/chunks/chunk-d6cd9d78.js"
   },
-  "_chunk-e63b034d.js": {
-    "file": "assets/chunks/chunk-e63b034d.js",
+  "_chunk-f28e4689.js": {
+    "file": "assets/chunks/chunk-f28e4689.js",
     "imports": [
-      "_chunk-84450b6d.js"
+      "_chunk-4b375b17.js",
+      "_chunk-9c84d6e4.js"
     ]
   },
   "_onRenderClient.css": {
@@ -53,7 +53,7 @@
       "virtual:vike:pageConfigValuesAll:client:/pages/profile",
       "virtual:vike:pageConfigValuesAll:client:/pages/register"
     ],
-    "file": "assets/entries/entry-client-routing.d4df35dd.js",
+    "file": "assets/entries/entry-client-routing.11e3ee1e.js",
     "imports": [
       "_chunk-d6cd9d78.js"
     ],
@@ -61,9 +61,9 @@
     "src": "node_modules/vike/dist/esm/client/client-routing-runtime/entry.js"
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/_error": {
-    "file": "assets/entries/pages_error.4a84cc5b.js",
+    "file": "assets/entries/pages_error.e82bd7cf.js",
     "imports": [
-      "_chunk-84450b6d.js",
+      "_chunk-4b375b17.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -77,12 +77,12 @@
     "css": [
       "assets/static/home.2dc42a8c.css"
     ],
-    "file": "assets/entries/pages_home.0d9ee94e.js",
+    "file": "assets/entries/pages_home.2bb8276c.js",
     "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-0ab2c14c.js",
-      "_chunk-e63b034d.js",
-      "_chunk-9da33992.js",
+      "_chunk-4b375b17.js",
+      "_chunk-f28e4689.js",
+      "_chunk-9c84d6e4.js",
+      "_chunk-31284e69.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -93,11 +93,11 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/index": {
-    "file": "assets/entries/pages_index.39b9404c.js",
+    "file": "assets/entries/pages_index.ce48cd21.js",
     "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-2c844e21.js",
-      "_chunk-e63b034d.js",
+      "_chunk-4b375b17.js",
+      "_chunk-adc80fa5.js",
+      "_chunk-9c84d6e4.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -108,12 +108,12 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/profile": {
-    "file": "assets/entries/pages_profile.65c52674.js",
+    "file": "assets/entries/pages_profile.2e938a33.js",
     "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-0ab2c14c.js",
-      "_chunk-e63b034d.js",
-      "_chunk-9da33992.js",
+      "_chunk-4b375b17.js",
+      "_chunk-f28e4689.js",
+      "_chunk-9c84d6e4.js",
+      "_chunk-31284e69.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
@@ -124,12 +124,12 @@
     ]
   },
   "virtual:vike:pageConfigValuesAll:client:/pages/register": {
-    "file": "assets/entries/pages_register.3d70103d.js",
+    "file": "assets/entries/pages_register.6ec45b2a.js",
     "imports": [
-      "_chunk-84450b6d.js",
-      "_chunk-9da33992.js",
-      "_chunk-2c844e21.js",
-      "_chunk-e63b034d.js",
+      "_chunk-4b375b17.js",
+      "_chunk-31284e69.js",
+      "_chunk-adc80fa5.js",
+      "_chunk-9c84d6e4.js",
       "_chunk-d6cd9d78.js"
     ],
     "isDynamicEntry": true,
